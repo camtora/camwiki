@@ -5,12 +5,11 @@ tags: [infra, vpn, wireguard, pia, transmission]
 created: 2026-04-16
 updated: 2026-04-16
 source_count: 2
-source_count: 1
 ---
 
 # Gluetun VPN
 
-A VPN container (Gluetun) using PIA WireGuard that wraps Transmission. Transmission runs inside Gluetun's network namespace so all torrent traffic exits through the VPN.
+Three Gluetun containers run simultaneously, one per PIA region. Transmission connects to whichever is currently healthy — the GCP monitoring script automatically switches Transmission to the next healthy container when the active one becomes unhealthy. There is no preferred region; the active server at any time is simply the current healthy one.
 
 ## Specification
 
@@ -19,22 +18,22 @@ A VPN container (Gluetun) using PIA WireGuard that wraps Transmission. Transmiss
 | Containers | `gluetun-toronto`, `gluetun-montreal`, `gluetun-vancouver` (all run simultaneously) |
 | VPN provider | Private Internet Access (PIA) |
 | Protocol | WireGuard (custom provider — native PIA WG not supported in Gluetun) |
-| Active server | `toronto433` (`212.32.48.142`) — current |
+| Active server | Whichever region is currently healthy (determined by health check failover) |
 | Port forwarding | Enabled per-container; port stored in `gluetun-<region>/piaportforward.json` |
 | Memory limit | 1GB per container (memory leak when VPN unhealthy triggers auto-restart before OOM) |
 | Credentials | `docker-services/.env`: `PIA_USER`, `PIA_PASS`, `PIA_WG_TORONTO_KEY`, `PIA_WG_MONTREAL_KEY`, `PIA_WG_VANCOUVER_KEY` |
 
 ## Architecture
 
-Three Gluetun containers run simultaneously. Transmission connects to one at a time via Docker's `network_mode`:
+All three containers stay running at all times. Transmission uses `network_mode: service:<active-container>` to connect to one at a time. The GCP monitor tracks health of each region and switches Transmission when the current one fails:
 
 ```
-gluetun-toronto   (9091/8090) ←── Transmission (active)
-gluetun-montreal  (9092/8091)
-gluetun-vancouver (9093/8092)
+gluetun-toronto   (9091/8090) ─┐
+gluetun-montreal  (9092/8091) ─┼── GCP health check → Transmission uses healthiest
+gluetun-vancouver (9093/8092) ─┘
 ```
 
-Montreal and Vancouver show `Up (unhealthy)` when idle — this is expected. Only the active container needs to be healthy.
+Non-active containers may show `Up (unhealthy)` — this is expected. All three need to stay running so failover has targets to switch to.
 
 ## Server Details
 
@@ -52,7 +51,7 @@ Montreal and Vancouver show `Up (unhealthy)` when idle — this is expected. Onl
 | Montreal | ~140 KB/s | 3.5× faster |
 | Toronto | ~40 KB/s | baseline |
 
-Vancouver is fastest but had DNS issues (2026-01-12) — Toronto is current default.
+Vancouver is fastest in benchmarks. The failover script selects the healthiest server by download speed, so Vancouver will be preferred when healthy.
 
 ## Gluetun Watcher (Auto-restart Transmission)
 
@@ -104,7 +103,8 @@ Keys are tied to a specific PIA server. If regeneration is needed, see `docs/SEC
 
 - PIA-assigned forwarded port renews periodically; `settings.json` peer-port must be kept in sync with `piaportforward.json`
 - Speedtest script has a 90s grace period after Gluetun restart (DNS takes 30–60s to initialize; too-early speedtest caused false health failures)
-- Vancouver DNS issues (2026-01-12) — fastest region but unreliable; Toronto is current default despite being slowest
+- PIA-assigned forwarded port renews periodically; `settings.json` peer-port must match the active container's `piaportforward.json`
+- Speedtest script has a 90s grace period after Gluetun restart (DNS takes 30–60s to initialize)
 
 ## Connected Projects
 

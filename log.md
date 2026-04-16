@@ -43,3 +43,8 @@ Grep patterns:
 - **Pages created:** wiki/projects/watchmap, wiki/projects/haymaker, wiki/projects/whosup, wiki/projects/rotosync, wiki/projects/donormap, wiki/projects/sbca, wiki/projects/clarity + 8 source summaries
 - **Pages updated:** index.md
 - **Notes:** Confirmed deployment repo is backend for Clarity (not DonorMap) — different Snowflake database (PHOENIX_APP_DEV vs Fivetran), different tech (FastAPI vs Firebase Functions). All 11 linked repos now ingested. Haymaker documented in depth (largest project). Rotosync switched from Claude to Gemini/Vertex AI for AI summaries.
+
+## [2026-04-16] edit | Gluetun VPN — corrected 3-region failover framing
+
+- **Pages updated:** wiki/infrastructure/gluetun-vpn, wiki/projects/transmission, wiki/projects/docker-services
+- **Notes:** Correction from user — the 3 Gluetun containers exist for automatic health-check failover, not manual switching. There is no preferred region; the active server is whichever is currently healthy. Also fixed duplicate source_count frontmatter bug in gluetun-vpn.md.

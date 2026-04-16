@@ -35,9 +35,9 @@ All services share the `docker-services_default` network (declared external to a
 | Tdarr | 8265 | Media transcoding | stopped |
 | Ombi | 3579 | Media requests (legacy) | decommissioned |
 | Watchmap | 5080 | Live Plex stream map | active (separate repo) |
-| gluetun-toronto | 9091/8090 | VPN (active) | active |
-| gluetun-montreal | 9092/8091 | VPN (idle) | active/unhealthy |
-| gluetun-vancouver | 9093/8092 | VPN (idle) | active/unhealthy |
+| gluetun-toronto | 9091/8090 | VPN region | active |
+| gluetun-montreal | 9092/8091 | VPN region | active |
+| gluetun-vancouver | 9093/8092 | VPN region | active |
 
 ## Infrastructure
 
@@ -58,7 +58,7 @@ All services share the `docker-services_default` network (declared external to a
 ## Key Decisions
 
 - [[wiki/projects/transmission]] runs inside Gluetun's network namespace — all torrent traffic exits through VPN
-- Three Gluetun regions run in parallel; Transmission uses one at a time (see [[wiki/infrastructure/gluetun-vpn]])
+- Three Gluetun regions run in parallel; GCP health checks auto-fail Transmission over to the next healthy region (see [[wiki/infrastructure/gluetun-vpn]])
 - Bazarr and Tdarr kept stopped — excluded from update command to avoid unnecessary restarts
 - Network declared as external in docker-compose.yaml to avoid label mismatch (pre-dates Docker Compose label requirements)
 
