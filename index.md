@@ -56,7 +56,11 @@ _No entries yet._
 
 Architecture decision records and significant choices.
 
-_No entries yet._
+- [[wiki/decisions/decision-gcp-external-monitoring|GCP External Monitoring]] — Why build a custom GCP Cloud Run monitor instead of keeping Uptime Kuma or using a third-party service. `1 source`
+- [[wiki/decisions/decision-status-dashboard-on-gcp|Status Dashboard on GCP]] — Why host the status dashboard on GCP Cloud Run rather than the home server. `1 source`
+- [[wiki/decisions/decision-unified-oauth2-proxy|Unified OAuth2 Proxy]] — Why deploy a single shared OAuth2 Proxy for SSO across all protected services. `1 source`
+- [[wiki/decisions/decision-dns-failover-approach|DNS Failover Approach]] — GoDaddy API flip + DDNS sentinel check; why only 3 subdomains fail over. `1 source`
+- [[wiki/decisions/decision-overseerr-to-seerr|Overseerr → Seerr Migration]] — Phased migration strategy; Phase 1 done, Phases 2–3 pending. `1 source`
 
 ---
 

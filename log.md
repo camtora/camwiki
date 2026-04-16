@@ -44,6 +44,13 @@ Grep patterns:
 - **Pages updated:** index.md
 - **Notes:** Confirmed deployment repo is backend for Clarity (not DonorMap) — different Snowflake database (PHOENIX_APP_DEV vs Fivetran), different tech (FastAPI vs Firebase Functions). All 11 linked repos now ingested. Haymaker documented in depth (largest project). Rotosync switched from Claude to Gemini/Vertex AI for AI summaries.
 
+## [2026-04-16] ingest | infrastructure decisions retro (5 ADRs)
+
+- **Source:** `raw/repos/infrastructure`
+- **Pages created:** wiki/decisions/decision-gcp-external-monitoring, wiki/decisions/decision-status-dashboard-on-gcp, wiki/decisions/decision-unified-oauth2-proxy, wiki/decisions/decision-dns-failover-approach, wiki/decisions/decision-overseerr-to-seerr
+- **Pages updated:** index.md
+- **Notes:** Retrospective pass on the infrastructure repo to capture architectural decisions as ADRs. 5 decisions documented covering monitoring, status dashboard hosting, SSO auth strategy, DNS failover design, and the Overseerr→Seerr phased migration (Phases 2–3 still pending).
+
 ## [2026-04-16] edit | Gluetun VPN — corrected 3-region failover framing
 
 - **Pages updated:** wiki/infrastructure/gluetun-vpn, wiki/projects/transmission, wiki/projects/docker-services
