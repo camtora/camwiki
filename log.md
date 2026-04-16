@@ -36,3 +36,10 @@ Grep patterns:
 - **Pages created:** wiki/sources/camerontora-ca-repo, wiki/projects/camerontora-ca
 - **Pages updated:** wiki/infrastructure/oauth2-proxy (added second instance), index.md
 - **Notes:** Discovered cross-repo dependency — Watchmap writes data/locations.json, camerontora.ca reads it. camerontora.ca has its own OAuth2 Proxy instance separate from the shared infrastructure one.
+
+## [2026-04-16] ingest | watchmap, haymaker, whosup, rotosync, donormap, sbca, clarity, deployment repos
+
+- **Source:** `raw/repos/watchmap`, `raw/repos/haymaker`, `raw/repos/whosup`, `raw/repos/rotosync`, `raw/repos/donormap`, `raw/repos/sbca`, `raw/repos/clarity`, `raw/repos/deployment`
+- **Pages created:** wiki/projects/watchmap, wiki/projects/haymaker, wiki/projects/whosup, wiki/projects/rotosync, wiki/projects/donormap, wiki/projects/sbca, wiki/projects/clarity + 8 source summaries
+- **Pages updated:** index.md
+- **Notes:** Confirmed deployment repo is backend for Clarity (not DonorMap) — different Snowflake database (PHOENIX_APP_DEV vs Fivetran), different tech (FastAPI vs Firebase Functions). All 11 linked repos now ingested. Haymaker documented in depth (largest project). Rotosync switched from Claude to Gemini/Vertex AI for AI summaries.
