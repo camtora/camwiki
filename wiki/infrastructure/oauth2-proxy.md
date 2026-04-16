@@ -43,6 +43,20 @@ Nginx forwards requests for protected services to oauth2-proxy for authenticatio
 - Cookie domain `.camerontora.ca` means a single login covers all subdomains
 - To force re-authentication: clear `_oauth2_proxy` cookies for `*.camerontora.ca` in browser
 
+## Per-Service Authorization
+
+Authentication (who can log in) is controlled by `authenticated_emails.txt`. Authorization (which services they can access) is enforced in nginx:
+
+| Service | Access Level |
+|---------|-------------|
+| Haymaker | All authenticated users |
+| Radarr, Sonarr, Jackett, Tautulli, Transmission, Watchmap, Netdata | Admin only |
+| Health API `/api/admin/*` | Admin only |
+| Plex, Seerr, Ombi | Public (no OAuth required) |
+| Who's Up, camerontora.ca | Public (app-managed auth) |
+
+Admin email mapping is in `nginx/conf.d/00-admin-map.conf` (`map $auth_email $is_admin {...}`). Adding an admin means adding a line to that map. Non-admin authenticated users get a custom 403 page (dark glassmorphism design matching the dashboard) rather than a raw error.
+
 ## Adding a New Protected Service
 
 1. Add the nginx config routing through oauth2-proxy (see `docs/SSO-GUIDE.md`)

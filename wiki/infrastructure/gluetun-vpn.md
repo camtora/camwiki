@@ -99,12 +99,30 @@ curl -s http://localhost:8090/v1/vpn/status  # {"status":"running"}
 
 Keys are tied to a specific PIA server. If regeneration is needed, see `docs/SECURITY.md` in the infrastructure repo: get PIA token → generate WG keys → register with PIA API → update `.env` → restart.
 
+## Orphaned Transmission Auto-Repair
+
+If Gluetun containers are recreated independently (without Transmission), they get new container IDs. Transmission keeps referencing the old ID and loses network connectivity — this is separate from the gluetun-watcher which handles normal restarts.
+
+The speedtest script (runs every 5 minutes) detects and repairs this automatically:
+
+1. Script checks Transmission's `network_mode` container reference
+2. If the referenced container ID no longer exists → **AUTO-REPAIR**
+3. Finds the healthiest VPN by download speed
+4. Calls `POST /api/health/vpn/switch` → full switch process executes
+5. Log: `⚠ AUTO-REPAIR: Attempting to fix orphaned transmission...`
+
+**Best practice:** always recreate Gluetun containers together with Transmission:
+```bash
+docker-compose up -d gluetun-vancouver transmission  # correct
+docker-compose up -d gluetun-vancouver               # orphans transmission!
+```
+
+Recovery without waiting for auto-repair: run `speedtest.sh` manually or call the switch API directly.
+
 ## Known Issues
 
-- PIA-assigned forwarded port renews periodically; `settings.json` peer-port must be kept in sync with `piaportforward.json`
-- Speedtest script has a 90s grace period after Gluetun restart (DNS takes 30–60s to initialize; too-early speedtest caused false health failures)
-- PIA-assigned forwarded port renews periodically; `settings.json` peer-port must match the active container's `piaportforward.json`
-- Speedtest script has a 90s grace period after Gluetun restart (DNS takes 30–60s to initialize)
+- PIA-assigned forwarded port renews periodically; `settings.json` peer-port must be kept in sync with the active container's `piaportforward.json`
+- Speedtest script has a 90s grace period after Gluetun restart (DNS takes 30–60s to initialize; too-early connectivity test caused false health failures)
 
 ## Connected Projects
 

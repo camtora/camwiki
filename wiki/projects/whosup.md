@@ -52,10 +52,14 @@ Last meaningful change: 2026-03-31 (reverted login tagline)
 ## Infrastructure
 
 - URL: `https://whosup.camerontora.ca`
-- Backend: port 3001; nginx strips `/api` prefix and proxies to backend
+- Backend: port 3001, container name `whosup-api`; nginx strips `/api` prefix and proxies to backend
 - Docker Compose at `whosup/docker-compose.yaml`
 - PostgreSQL on port 5433 (non-standard to avoid conflicts)
 - iOS app connects to production URL: `https://whosup.camerontora.ca/api`
+- **NOT behind OAuth2 Proxy** — public API with app-managed authentication (Apple/Google Sign In)
+- Nginx rate limits: auth endpoints 5 req/min per IP, general API 10 req/sec per IP (burst 20)
+- Security headers: X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, Referrer-Policy
+- Monitored by [[wiki/infrastructure/status-dashboard]] and [[wiki/infrastructure/health-api]] (container + port 3001 check)
 
 ## Key Files
 

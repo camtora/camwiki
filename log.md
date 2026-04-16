@@ -51,6 +51,13 @@ Grep patterns:
 - **Pages updated:** index.md
 - **Notes:** Retrospective pass on the infrastructure repo to capture architectural decisions as ADRs. 5 decisions documented covering monitoring, status dashboard hosting, SSO auth strategy, DNS failover design, and the Overseerr→Seerr phased migration (Phases 2–3 still pending).
 
+## [2026-04-16] ingest | infrastructure docs/ folder — 13 markdown files
+
+- **Source:** `raw/repos/infrastructure/docs/` (BACKLOG.md, DNS-AND-SSL.md, DNS-FAILOVER.md, MACOS-MOUNT.md, MONITORING.md, SECURITY.md, SEERR-MIGRATION.md, SSO-GUIDE.md, STATUS-DASHBOARD.md, WHOSUP.md, WHOSUP-BACKEND-REQUIREMENTS.md, WHOSUP-PROJECT-PLAN.md, SBA-BACKEND-REQUIREMENTS.md)
+- **Pages created:** wiki/infrastructure/macos-remote-mount
+- **Pages updated:** wiki/infrastructure/status-dashboard (services list, health check logic, admin panel, Firestore history, Netdata), wiki/infrastructure/gcp-external-monitoring (full threshold table, VPN alerting nuance), wiki/infrastructure/health-api (all endpoints, response schema, speedtest cron details), wiki/infrastructure/gluetun-vpn (orphaned transmission auto-repair), wiki/infrastructure/oauth2-proxy (per-service authorization table), wiki/projects/whosup (container name, nginx rate limits, infra status), wiki/projects/sbca (container name, infra integration), index.md
+- **Notes:** SEERR-MIGRATION.md and SSO-GUIDE.md were already well-represented by the ADRs created in the prior pass. DNS-AND-SSL.md, SECURITY.md, and DNS-FAILOVER.md were largely captured in previous ingests. DNS-FAILOVER.md has a historical discrepancy — the doc still lists ombi/overseerr as failover targets but BACKLOG.md confirms these were removed; current DNS_RECORDS = ["@", "plex", "seerr"].
+
 ## [2026-04-16] edit | Gluetun VPN — corrected 3-region failover framing
 
 - **Pages updated:** wiki/infrastructure/gluetun-vpn, wiki/projects/transmission, wiki/projects/docker-services

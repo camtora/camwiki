@@ -32,13 +32,14 @@ Hosts, networks, storage, operating systems, container runtimes.
 
 - [[wiki/infrastructure/home-server|Home Server]] — Primary Ubuntu home server, port forwarding, UFW, RealVNC, secrets. `1 source`
 - [[wiki/infrastructure/nginx-reverse-proxy|Nginx Reverse Proxy]] — SSL termination and subdomain routing for all *.camerontora.ca services. `1 source`
-- [[wiki/infrastructure/oauth2-proxy|OAuth2 Proxy]] — Two instances: shared infrastructure SSO + camerontora.ca-specific auth. `2 sources`
+- [[wiki/infrastructure/oauth2-proxy|OAuth2 Proxy]] — Two instances: shared infrastructure SSO + camerontora.ca-specific auth; per-service auth table. `2 sources`
 - [[wiki/infrastructure/dns-ssl|DNS and SSL]] — GoDaddy DDNS (cron/10min) and Let's Encrypt shared cert (19 subdomains). `1 source`
 - [[wiki/infrastructure/docker-networks|Docker Networks]] — Docker Compose network topology and UFW subnet rules. `1 source`
-- [[wiki/infrastructure/gcp-external-monitoring|GCP External Monitoring]] — Cloud Run monitor checks home server every 5 min, Discord alerts, DNS failover, VPN failover. `1 source`
-- [[wiki/infrastructure/gluetun-vpn|Gluetun VPN]] — 3-region PIA WireGuard VPN (Toronto/Montreal/Vancouver), auto-failover, watcher service. `2 sources`
-- [[wiki/infrastructure/health-api|Health API]] — Flask container exposing CPU/RAM/disk/Plex/SMART metrics to external consumers. `1 source`
-- [[wiki/infrastructure/status-dashboard|Status Dashboard]] — GCP-hosted service health dashboard at status.camerontora.ca. `1 source`
+- [[wiki/infrastructure/gcp-external-monitoring|GCP External Monitoring]] — Cloud Run monitor checks home server every 5 min, Discord alerts, DNS failover, VPN failover; full thresholds. `2 sources`
+- [[wiki/infrastructure/gluetun-vpn|Gluetun VPN]] — 3-region PIA WireGuard VPN (Toronto/Montreal/Vancouver), auto-failover, orphan auto-repair. `2 sources`
+- [[wiki/infrastructure/health-api|Health API]] — Flask container exposing CPU/RAM/disk/Plex/SMART metrics; all endpoints including admin. `2 sources`
+- [[wiki/infrastructure/macos-remote-mount|macOS Remote Mount]] — SSHFS mount of home server storage on MacBook (home + remote). `1 source`
+- [[wiki/infrastructure/status-dashboard|Status Dashboard]] — GCP-hosted dashboard; 15 services monitored; admin panel (reboot, VPN, restart); Firestore history. `2 sources`
 - [[wiki/infrastructure/storage-raid|Storage and RAID]] — HOMENAS (8-drive software RAID5) and CAMRAID (hardware RAID5) with SMART monitoring. `1 source`
 
 ---

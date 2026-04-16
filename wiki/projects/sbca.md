@@ -83,9 +83,14 @@ MinIO: API port 9010, console port 9011
 ## Infrastructure
 
 - Domains: `sba.camerontora.ca`, `admin.sba.camerontora.ca`, `metro.sba.camerontora.ca` (wildcard `*.sba` cert)
+- Backend: port 3003, container name `sba-api`
 - Docker network: `infrastructure_default` (nginx routes to backend)
-- Reverse proxy: [[wiki/infrastructure/nginx-reverse-proxy]] (`docs/04-sba.conf`)
+- Reverse proxy: [[wiki/infrastructure/nginx-reverse-proxy]] (nginx config `04-sba.conf`)
 - SSL: shared `camerontora-services` Let's Encrypt cert (see [[wiki/infrastructure/dns-ssl]])
+- **NOT behind OAuth2 Proxy** — public API with app-managed authentication (JWT)
+- Nginx rate limits: auth endpoints 5 req/min per IP, general API 10 req/sec per IP (burst 20)
+- Max request body: 10 MB
+- Monitored by [[wiki/infrastructure/health-api]] via container `sba-api` + port 3003 health check
 - iOS build requires `ios/WhosUp.xcworkspace` (not `.xcodeproj`) — use `xcworkspace` after `expo prebuild`
 
 ## Key Files
