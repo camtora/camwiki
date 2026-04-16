@@ -11,7 +11,10 @@ Last updated: 2026-04-16
 
 Home-server projects — software stacks, services, personal tools.
 
-_No entries yet._
+- [[wiki/projects/arr-suite|Arr Suite]] — Radarr/Sonarr/Jackett/FlareSolverr/Recyclarr media automation pipeline. `1 source`
+- [[wiki/projects/docker-services|Docker Services]] — Home media server Docker Compose stack, all services and VPN setup. `1 source`
+- [[wiki/projects/plex-media-server|Plex Media Server]] — Plex + Tautulli, streaming from HOMENAS with RAM-disk transcoding. `1 source`
+- [[wiki/projects/transmission|Transmission]] — Torrent client running inside Gluetun VPN network namespace. `1 source`
 
 ---
 
@@ -25,7 +28,7 @@ Hosts, networks, storage, operating systems, container runtimes.
 - [[wiki/infrastructure/dns-ssl|DNS and SSL]] — GoDaddy DDNS (cron/10min) and Let's Encrypt shared cert (19 subdomains). `1 source`
 - [[wiki/infrastructure/docker-networks|Docker Networks]] — Docker Compose network topology and UFW subnet rules. `1 source`
 - [[wiki/infrastructure/gcp-external-monitoring|GCP External Monitoring]] — Cloud Run monitor checks home server every 5 min, Discord alerts, DNS failover, VPN failover. `1 source`
-- [[wiki/infrastructure/gluetun-vpn|Gluetun VPN]] — PIA WireGuard VPN wrapping Transmission, port forwarding, auto-failover. `1 source`
+- [[wiki/infrastructure/gluetun-vpn|Gluetun VPN]] — 3-region PIA WireGuard VPN (Toronto/Montreal/Vancouver), auto-failover, watcher service. `2 sources`
 - [[wiki/infrastructure/health-api|Health API]] — Flask container exposing CPU/RAM/disk/Plex/SMART metrics to external consumers. `1 source`
 - [[wiki/infrastructure/status-dashboard|Status Dashboard]] — GCP-hosted service health dashboard at status.camerontora.ca. `1 source`
 - [[wiki/infrastructure/storage-raid|Storage and RAID]] — HOMENAS (8-drive software RAID5) and CAMRAID (hardware RAID5) with SMART monitoring. `1 source`
@@ -71,3 +74,4 @@ Technology reference knowledge, principles, and cross-cutting ideas.
 One entry per raw source ingested.
 
 - [[wiki/sources/infrastructure-repo|infrastructure repo]] — Full infrastructure repo: nginx, OAuth2, DDNS, SSL, GCP monitoring, VPN, RAID. `1 source`
+- [[wiki/sources/docker-services-repo|docker-services repo]] — Home media stack: Plex, *arr suite, Transmission, multi-region Gluetun VPN. `1 source`

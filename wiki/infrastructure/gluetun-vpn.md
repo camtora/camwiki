@@ -4,6 +4,7 @@ type: infrastructure
 tags: [infra, vpn, wireguard, pia, transmission]
 created: 2026-04-16
 updated: 2026-04-16
+source_count: 2
 source_count: 1
 ---
 
@@ -15,56 +16,95 @@ A VPN container (Gluetun) using PIA WireGuard that wraps Transmission. Transmiss
 
 | Property | Value |
 |----------|-------|
-| Container | `gluetun` |
+| Containers | `gluetun-toronto`, `gluetun-montreal`, `gluetun-vancouver` (all run simultaneously) |
 | VPN provider | Private Internet Access (PIA) |
 | Protocol | WireGuard (custom provider — native PIA WG not supported in Gluetun) |
-| Server | `toronto433` (`212.32.48.142`) |
-| Port forwarding | Enabled; dynamic port written to `/tmp/gluetun/forwarded_port` |
-| Health endpoint | `http://192.168.2.34:8090/v1/vpn/status` |
-| Credentials | `docker-services/.env`: `PIA_USER`, `PIA_PASS`, `PIA_WG_PRIVATE_KEY` |
+| Active server | `toronto433` (`212.32.48.142`) — current |
+| Port forwarding | Enabled per-container; port stored in `gluetun-<region>/piaportforward.json` |
+| Memory limit | 1GB per container (memory leak when VPN unhealthy triggers auto-restart before OOM) |
+| Credentials | `docker-services/.env`: `PIA_USER`, `PIA_PASS`, `PIA_WG_TORONTO_KEY`, `PIA_WG_MONTREAL_KEY`, `PIA_WG_VANCOUVER_KEY` |
 
 ## Architecture
 
+Three Gluetun containers run simultaneously. Transmission connects to one at a time via Docker's `network_mode`:
+
 ```
-gluetun container (WireGuard tunnel → PIA toronto433)
-  └── transmission (network_mode: service:gluetun)
-        All traffic exits through VPN
+gluetun-toronto   (9091/8090) ←── Transmission (active)
+gluetun-montreal  (9092/8091)
+gluetun-vancouver (9093/8092)
+```
+
+Montreal and Vancouver show `Up (unhealthy)` when idle — this is expected. Only the active container needs to be healthy.
+
+## Server Details
+
+| Container | Region | Server | Web UI | Health |
+|-----------|--------|--------|--------|--------|
+| gluetun-toronto | CA Toronto | toronto433 | :9091 | :8090 |
+| gluetun-montreal | CA Montreal | montreal433 | :9092 | :8091 |
+| gluetun-vancouver | CA Vancouver | vancouver439 | :9093 | :8092 |
+
+**Speed comparison (2026-01-11, 10MB test):**
+
+| Server | Speed | vs Toronto |
+|--------|-------|------------|
+| Vancouver | ~282 KB/s | 7× faster |
+| Montreal | ~140 KB/s | 3.5× faster |
+| Toronto | ~40 KB/s | baseline |
+
+Vancouver is fastest but had DNS issues (2026-01-12) — Toronto is current default.
+
+## Gluetun Watcher (Auto-restart Transmission)
+
+Transmission shares Gluetun's network namespace via `network_mode: service:gluetun-toronto`. When Gluetun is recreated (restart, update, memory limit), its container ID changes and Transmission loses network.
+
+A systemd service auto-recreates Transmission when any Gluetun container restarts:
+
+```bash
+# Install once
+sudo cp docker-services/scripts/gluetun-watcher.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now gluetun-watcher
+
+# Check status
+sudo systemctl status gluetun-watcher
 ```
 
 ## Port Forwarding
 
-PIA assigns a dynamic forwarded port. The current port must match Transmission's `peer-port` setting in `settings.json`. If Gluetun gets a new port from PIA, `settings.json` must be updated manually.
+PIA assigns a dynamic forwarded port per container. Transmission's `peer-port` in `settings.json` must match the active container's port:
 
-- Check current port: `cat /home/camerontora/docker-services/gluetun/forwarded_port`
-- Or: `docker logs gluetun | grep "port forward"`
+```bash
+cat /home/camerontora/docker-services/gluetun-toronto/piaportforward.json
+```
 
 ## VPN Auto-Failover
 
-The [[wiki/infrastructure/gcp-external-monitoring]] system tracks consecutive unhealthy VPN checks. After 6 consecutive failures (~30 min), it calls `health.camerontora.ca/api/health/vpn/switch` to switch to the healthiest available PIA server (highest download speed). Discord notification sent on start, completion, or failure.
+The [[wiki/infrastructure/gcp-external-monitoring]] system tracks consecutive unhealthy VPN checks. After 6 checks (~30 min), it calls `health.camerontora.ca/api/health/vpn/switch` to switch to the healthiest available PIA server (highest download speed). Discord notification sent on start, completion, or failure.
 
-Per-location nginx ports: Toronto=9091, Montreal=9092, Vancouver=9093. When VPN switches, Sonarr and Radarr download client ports are updated via API after Transmission restarts (30s wait loop ensures Transmission is ready before API calls).
+When VPN switches, [[wiki/projects/arr-suite]] (Sonarr/Radarr) download client ports are updated via API after Transmission restarts (30s wait loop ensures Transmission is ready).
 
 ## Verifying VPN
 
 ```bash
-# External IP (should be PIA, not home IP)
-docker exec gluetun wget -qO- https://ipinfo.io/ip
+# Check all regions are connected
+curl -s http://localhost:8090/v1/publicip/ip | jq -r '.city'  # Toronto
+curl -s http://localhost:8091/v1/publicip/ip | jq -r '.city'  # Montreal
+curl -s http://localhost:8092/v1/publicip/ip | jq -r '.city'  # Vancouver
 
 # VPN status
-curl -s http://localhost:8090/v1/vpn/status
-
-# Public IP details
-curl -s http://localhost:8090/v1/publicip/ip | jq .
+curl -s http://localhost:8090/v1/vpn/status  # {"status":"running"}
 ```
 
 ## WireGuard Key Regeneration
 
-Keys are tied to a specific PIA server. If regeneration is needed (server issues, key expiry), see `docs/SECURITY.md` in the infrastructure repo for the full procedure: get PIA token → generate new WG keys → register with PIA API → update `.env` → restart.
+Keys are tied to a specific PIA server. If regeneration is needed, see `docs/SECURITY.md` in the infrastructure repo: get PIA token → generate WG keys → register with PIA API → update `.env` → restart.
 
 ## Known Issues
 
-- PIA-assigned forwarded port renews periodically; if Gluetun gets a new port, `transmission/config/settings.json` needs `peer-port` updated
-- Speedtest script has a 90s grace period after Gluetun restart (DNS takes 30–60s to initialize; too-early speedtest caused false VPN health failures)
+- PIA-assigned forwarded port renews periodically; `settings.json` peer-port must be kept in sync with `piaportforward.json`
+- Speedtest script has a 90s grace period after Gluetun restart (DNS takes 30–60s to initialize; too-early speedtest caused false health failures)
+- Vancouver DNS issues (2026-01-12) — fastest region but unreliable; Toronto is current default despite being slowest
 
 ## Connected Projects
 
@@ -73,4 +113,5 @@ Keys are tied to a specific PIA server. If regeneration is needed (server issues
 
 ## Sources
 
-- [[wiki/sources/infrastructure-repo]] — VPN setup, failover logic, Transmission port forwarding, WireGuard key regeneration
+- [[wiki/sources/infrastructure-repo]] — VPN setup, failover logic, WireGuard key regeneration
+- [[wiki/sources/docker-services-repo]] — 3-region architecture, watcher service, memory limits, speed comparison data
