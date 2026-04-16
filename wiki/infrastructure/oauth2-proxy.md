@@ -4,14 +4,25 @@ type: infrastructure
 tags: [infra, auth, sso, google, oauth]
 created: 2026-04-16
 updated: 2026-04-16
-source_count: 1
+source_count: 2
 ---
 
 # OAuth2 Proxy
 
 Centralized Google SSO for all protected services on `camerontora.ca`. Log in once, access all protected services without re-authenticating.
 
-## Specification
+## Instances
+
+There are two OAuth2 Proxy instances running independently:
+
+| Instance | Stack | Port | Cookie domain | Allowed users |
+|----------|-------|------|---------------|---------------|
+| Shared (infrastructure) | `infrastructure` | — | `.camerontora.ca` | `infrastructure/oauth2-proxy/authenticated_emails.txt` |
+| camerontora.ca | `camerontoraca` | 4182 | `camerontora.ca` | `allowedEmails` array in `page.tsx` |
+
+The shared instance in the infrastructure stack protects all `*.camerontora.ca` services (Radarr, Sonarr, Haymaker, etc.). The camerontora.ca instance is specific to the website's own auth flow ("I'm Cam!" sign-in).
+
+## Shared Instance Specification
 
 | Property | Value |
 |----------|-------|
@@ -45,4 +56,5 @@ Nginx forwards requests for protected services to oauth2-proxy for authenticatio
 
 ## Sources
 
-- [[wiki/sources/infrastructure-repo]] — SSO architecture and configuration
+- [[wiki/sources/infrastructure-repo]] — shared SSO architecture and configuration
+- [[wiki/sources/camerontora-ca-repo]] — camerontora.ca-specific OAuth2 instance

@@ -29,3 +29,10 @@ Grep patterns:
 - **Pages created:** wiki/sources/docker-services-repo, wiki/projects/docker-services, wiki/projects/plex-media-server, wiki/projects/arr-suite, wiki/projects/transmission
 - **Pages updated:** wiki/infrastructure/gluetun-vpn (3-region architecture, watcher service, memory limits, speed data), index.md
 - **Notes:** Resolved contradiction with infrastructure repo — Gluetun runs 3 containers in parallel, not 1. Watchmap is a separate repo (raw/repos/watchmap) — not yet ingested.
+
+## [2026-04-16] ingest | camerontora.ca repo
+
+- **Source:** `raw/repos/camerontora.ca`
+- **Pages created:** wiki/sources/camerontora-ca-repo, wiki/projects/camerontora-ca
+- **Pages updated:** wiki/infrastructure/oauth2-proxy (added second instance), index.md
+- **Notes:** Discovered cross-repo dependency — Watchmap writes data/locations.json, camerontora.ca reads it. camerontora.ca has its own OAuth2 Proxy instance separate from the shared infrastructure one.

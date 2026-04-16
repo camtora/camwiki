@@ -12,6 +12,7 @@ Last updated: 2026-04-16
 Home-server projects — software stacks, services, personal tools.
 
 - [[wiki/projects/arr-suite|Arr Suite]] — Radarr/Sonarr/Jackett/FlareSolverr/Recyclarr media automation pipeline. `1 source`
+- [[wiki/projects/camerontora-ca|camerontora.ca]] — Personal landing page and home dashboard; Plex watch history map, service tiles, Google SSO. `1 source`
 - [[wiki/projects/docker-services|Docker Services]] — Home media server Docker Compose stack, all services and VPN setup. `1 source`
 - [[wiki/projects/plex-media-server|Plex Media Server]] — Plex + Tautulli, streaming from HOMENAS with RAM-disk transcoding. `1 source`
 - [[wiki/projects/transmission|Transmission]] — Torrent client running inside Gluetun VPN network namespace. `1 source`
@@ -24,7 +25,7 @@ Hosts, networks, storage, operating systems, container runtimes.
 
 - [[wiki/infrastructure/home-server|Home Server]] — Primary Ubuntu home server, port forwarding, UFW, RealVNC, secrets. `1 source`
 - [[wiki/infrastructure/nginx-reverse-proxy|Nginx Reverse Proxy]] — SSL termination and subdomain routing for all *.camerontora.ca services. `1 source`
-- [[wiki/infrastructure/oauth2-proxy|OAuth2 Proxy]] — Centralized Google SSO for all protected services, single cookie across *.camerontora.ca. `1 source`
+- [[wiki/infrastructure/oauth2-proxy|OAuth2 Proxy]] — Two instances: shared infrastructure SSO + camerontora.ca-specific auth. `2 sources`
 - [[wiki/infrastructure/dns-ssl|DNS and SSL]] — GoDaddy DDNS (cron/10min) and Let's Encrypt shared cert (19 subdomains). `1 source`
 - [[wiki/infrastructure/docker-networks|Docker Networks]] — Docker Compose network topology and UFW subnet rules. `1 source`
 - [[wiki/infrastructure/gcp-external-monitoring|GCP External Monitoring]] — Cloud Run monitor checks home server every 5 min, Discord alerts, DNS failover, VPN failover. `1 source`
@@ -74,4 +75,5 @@ Technology reference knowledge, principles, and cross-cutting ideas.
 One entry per raw source ingested.
 
 - [[wiki/sources/infrastructure-repo|infrastructure repo]] — Full infrastructure repo: nginx, OAuth2, DDNS, SSL, GCP monitoring, VPN, RAID. `1 source`
+- [[wiki/sources/camerontora-ca-repo|camerontora.ca repo]] — Personal landing page: Next.js, Plex map, service tiles, dual OAuth2 setup. `1 source`
 - [[wiki/sources/docker-services-repo|docker-services repo]] — Home media stack: Plex, *arr suite, Transmission, multi-region Gluetun VPN. `1 source`
