@@ -3,7 +3,7 @@ title: "camwiki"
 type: project
 tags: [project, wiki, llm, knowledge-base, obsidian, claude]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 source_count: 1
 ---
 
@@ -14,7 +14,7 @@ A personal engineering knowledge base maintained by Claude. Sources are git repo
 ## Status
 
 Current status: `active`
-Last meaningful change: 2026-04-16 (initial scaffold + 11 repo ingests + infrastructure ADR retro)
+Last meaningful change: 2026-04-17 (known issues pass, desktop doc ingests, history pages)
 
 ## Architecture
 
@@ -70,6 +70,30 @@ Every wiki page has YAML frontmatter (`title`, `type`, `tags`, `created`, `updat
 
 `source_count` tracks how many raw sources contributed to a page — queryable via Obsidian Dataview.
 
+## Wiki Directories
+
+| Directory | Purpose |
+|-----------|---------|
+| `wiki/projects/` | One page per project |
+| `wiki/infrastructure/` | Hosts, networks, services, storage |
+| `wiki/integrations/` | External APIs and data flows |
+| `wiki/decisions/` | ADRs, one subdir per project |
+| `wiki/concepts/` | Cross-cutting technology reference (10 pages) |
+| `wiki/sources/` | One summary page per raw source ingested |
+| `wiki/history/` | Auto-generated git log per repo — 11 pages |
+
+## Coverage (as of 2026-04-17)
+
+| Category | Count |
+|----------|-------|
+| Project pages | 13 |
+| Infrastructure pages | 11 |
+| Decision / ADR pages | 35+ |
+| Concept pages | 10 |
+| Source pages | 14 |
+| History pages | 11 |
+| Known Issues sections | 9 projects |
+
 ## Key Decisions
 
 - [[wiki/decisions/camwiki/pre-synthesis-over-rag|Pre-synthesis over RAG]] — Pages written once, maintained over time; compounding value; consistent answers.
@@ -80,6 +104,7 @@ Every wiki page has YAML frontmatter (`title`, `type`, `tags`, `created`, `updat
 
 ## Change Log
 
+- 2026-04-17: Known Issues sections added to 9 project pages (scrape of all repos); 3 desktop docs ingested (drive layout, ops reference, SSO guide); 11 git history pages created under wiki/history/; CLAUDE.md updated with Step 4c (history regeneration) and Step 4b (ADR creation); 10 concept pages written; ADR deep dives for rotosync, donormap, watchmap, camwiki (23 ADRs)
 - 2026-04-17: Obsidian Sync set up — server → Mac + iPhone; replaced Obsidian Git plugin on Mac
 - 2026-04-16: Initial scaffold, 11 repo ingests, infrastructure ADR retro pass, docs/ folder ingest (13 docs)
 
