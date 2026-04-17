@@ -116,6 +116,16 @@ _No entries yet._
 Technology reference knowledge, principles, and cross-cutting ideas.
 
 - [[wiki/concepts/dns-failover|DNS Failover]] — Pattern for auto-switching DNS to a fallback host on outage and reverting on recovery. `1 source`
+- [[wiki/concepts/docker-compose-networking|Docker Compose Networking]] — Bridge networks, service-name DNS, and network_mode:service: for VPN namespace sharing. `0 sources`
+- [[wiki/concepts/expo-react-native-build-pipeline|Expo / React Native Build Pipeline]] — Ubuntu+Mac split dev, expo prebuild, Metro subdomain, xcworkspace gotcha. `0 sources`
+- [[wiki/concepts/gcp-cloud-run|GCP Cloud Run]] — Serverless containers; used for status dashboard and external monitor; scales to zero. `0 sources`
+- [[wiki/concepts/geospatial-postgis|Geospatial / PostGIS]] — PostGIS spatial indexes, ST_DWithin, Haversine vs DB-layer queries, location fuzzing. `0 sources`
+- [[wiki/concepts/jwt-authentication|JWT Authentication]] — Stateless token auth; access+refresh pattern (SBCA) vs single long-lived token (Whosup). `0 sources`
+- [[wiki/concepts/oauth2-proxy-pattern|OAuth2 Proxy Pattern]] — Nginx sidecar auth; X-Forwarded-Email; 401=Up; email allowlist; webhook bypass. `0 sources`
+- [[wiki/concepts/snowflake|Snowflake]] — OLAP warehouse used as OLTP (Clarity); immutable EVENT_LOG; internal stage for signatures. `0 sources`
+- [[wiki/concepts/stripe-payment-flows|Stripe Payment Flows]] — Terminal tap-to-pay (Clarity) vs CardField+server-side verification (SBCA). `0 sources`
+- [[wiki/concepts/websocket-realtime-events|WebSocket / Real-time Events]] — Socket.io rooms, event patterns (Whosup), PM2 sticky sessions. `0 sources`
+- [[wiki/concepts/webhook-patterns|Webhook Patterns]] — Signature validation, idempotency via event_id, public endpoint requirement. `0 sources`
 
 ---
 

@@ -115,3 +115,9 @@ Grep patterns:
 - **Pages created:** none
 - **Pages updated:** wiki/projects/camwiki.md (sync method updated from Obsidian Git to Obsidian Sync; change log entry added)
 - **Notes:** Obsidian installed on Ubuntu server. Obsidian Sync now transports vault to Mac and iPhone. Obsidian Git plugin on Mac decommissioned.
+
+## [2026-04-17] edit | 10 concept pages created
+
+- **Pages created:** wiki/concepts/webhook-patterns, wiki/concepts/stripe-payment-flows, wiki/concepts/oauth2-proxy-pattern, wiki/concepts/jwt-authentication, wiki/concepts/docker-compose-networking, wiki/concepts/websocket-realtime-events, wiki/concepts/snowflake, wiki/concepts/gcp-cloud-run, wiki/concepts/expo-react-native-build-pipeline, wiki/concepts/geospatial-postgis
+- **Pages updated:** index.md (Concepts section expanded from 1 to 11 entries)
+- **Notes:** Synthesised from existing wiki content — no new raw sources. Each concept documents the cross-cutting pattern and how it appears specifically in this wiki's projects.
