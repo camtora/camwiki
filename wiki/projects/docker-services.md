@@ -4,7 +4,7 @@ type: project
 tags: [project, media, docker, plex, vpn]
 created: 2026-04-16
 updated: 2026-04-16
-source_count: 1
+source_count: 2
 ---
 
 # Docker Services
@@ -75,11 +75,31 @@ All services share the `docker-services_default` network (declared external to a
 ```bash
 cd /home/camerontora/docker-services
 docker-compose pull
-docker-compose up -d plex tautulli transmission sonarr radarr jackett overseerr ombi flaresolverr recyclarr tdarr bazarr
+docker-compose up -d plex tautulli transmission sonarr radarr jackett seerr flaresolverr recyclarr tdarr bazarr
 docker image prune -f
 ```
 
-Excluded from update: `gluetun-*` (VPN state), `watchmap-*` (built from local Dockerfile).
+Excluded from update:
+- `gluetun-*` — restarting drops the VPN connection; only restart intentionally
+- `watchmap-*` — built from local Dockerfile, `pull` does nothing; rebuild separately after source changes
+- `bazarr`, `tdarr` — kept stopped; excluded to avoid unnecessary restarts
+
+### Post-Update Validation
+
+```bash
+docker-compose ps  # all expected services show Up
+```
+
+Spot-check key services:
+| Service | URL |
+|---------|-----|
+| Plex | http://localhost:32400/web |
+| Transmission | http://localhost:9091 |
+| Sonarr | http://localhost:8989 |
+| Radarr | http://localhost:7878 |
+| Seerr | http://localhost:5055 |
+
+Expected non-healthy state: `gluetun-montreal` and `gluetun-vancouver` show `Up (unhealthy)` — they are running but idle; only the active gluetun container needs to be healthy.
 
 ## Open Questions
 

@@ -3,7 +3,7 @@
 Master catalog of all wiki pages. Updated by Claude on every ingest and whenever
 a new page is created. Read this first when answering queries.
 
-Last updated: 2026-04-16
+Last updated: 2026-04-16 (docs audit pass)
 
 ---
 
@@ -15,13 +15,13 @@ Home-server projects — software stacks, services, personal tools.
 - [[wiki/projects/camwiki|camwiki]] — This wiki; LLM-maintained engineering knowledge base using Claude + Obsidian. `1 source`
 - [[wiki/projects/camerontora-ca|camerontora.ca]] — Personal landing page and home dashboard; Plex watch history map, service tiles, Google SSO. `1 source`
 - [[wiki/projects/clarity|Clarity]] — Android door-to-door fundraising app for GlobalFaces Direct; Stripe tap-to-pay, Twilio SMS, Snowflake. `2 sources`
-- [[wiki/projects/donormap|DonorMap]] — Real-time donor viz map for GlobalFaces Direct; Firebase + Snowflake + Fire TV office displays. `1 source`
-- [[wiki/projects/haymaker|Haymaker]] — Personal health/habit/finance tracker; FastAPI + Next.js + PostgreSQL; Withings + Apple Health integrations. `1 source`
-- [[wiki/projects/rotosync|Rotosync]] — Standup facilitation app; Daily.co WebRTC, live transcription, Gemini AI summaries, Monday.com. `1 source`
-- [[wiki/projects/sbca|SBCA]] — Cottage association mobile app (Expo); Stripe dues, lake health dashboard, community board. `1 source`
-- [[wiki/projects/watchmap|Watchmap]] — Real-time Plex stream map; Node.js + Socket.IO + Leaflet; tvOS app. `1 source`
-- [[wiki/projects/whosup|Who's Up]] — Map-first social activity app; Node.js + PostGIS + SwiftUI iOS; Muskoka/Toronto/Santa Teresa. `1 source`
-- [[wiki/projects/docker-services|Docker Services]] — Home media server Docker Compose stack, all services and VPN setup. `1 source`
+- [[wiki/projects/donormap|DonorMap]] — Real-time donor viz map for GlobalFaces Direct; Snowflake pipeline, FSA choropleth, Fire TV + APK build runbook. `2 sources`
+- [[wiki/projects/haymaker|Haymaker]] — Personal health/habit/finance tracker; FastAPI + Next.js + PostgreSQL; Apple Health push model, sleep/effort score formulas, debt forecaster. `2 sources`
+- [[wiki/projects/rotosync|Rotosync]] — Standup app; Daily.co WebRTC, Gemini AI summaries, Monday.com boards, Calendar add-on, 1:1 + Project meeting docs. `2 sources`
+- [[wiki/projects/sbca|SBCA]] — Cottage association mobile app (Expo); Stripe dues, lake health, A11Y system (18pt body min, WCAG AA colors, 3-channel status). `2 sources`
+- [[wiki/projects/watchmap|Watchmap]] — Real-time Plex stream map; Leaflet + Socket.IO; tvOS native SwiftUI (WebKit unavailable on tvOS). `2 sources`
+- [[wiki/projects/whosup|Who's Up]] — Map-first social app; PostGIS, 3-layer location privacy, Socket.io events, 12 activity types, PM2 cluster. `2 sources`
+- [[wiki/projects/docker-services|Docker Services]] — Home media server Docker Compose stack; all services, 3-region Gluetun VPN, update runbook. `2 sources`
 - [[wiki/projects/plex-media-server|Plex Media Server]] — Plex + Tautulli, streaming from HOMENAS with RAM-disk transcoding. `1 source`
 - [[wiki/projects/transmission|Transmission]] — Torrent client running inside Gluetun VPN network namespace. `1 source`
 

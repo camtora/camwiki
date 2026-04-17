@@ -4,7 +4,7 @@ type: project
 tags: [project, health, habits, budget, fastapi, nextjs, postgresql]
 created: 2026-04-16
 updated: 2026-04-16
-source_count: 1
+source_count: 2
 ---
 
 # Haymaker
@@ -36,6 +36,18 @@ Internet → nginx-proxy → OAuth2 Proxy → Next.js frontend (port 3000)
 | Container | Docker Compose | `docker-compose.yaml` at repo root |
 
 FastAPI was chosen over Next.js API routes because the backend does heavy computation: budget forecasting across pay periods, nutrition and macro tracking, workout scoring, cashflow modelling. Python's ecosystem is well-suited to this.
+
+## New User Onboarding
+
+New users land at `/onboarding` on first login (detected via `has_completed_onboarding` flag). Four-step wizard: Welcome → Profile (name, timezone) → Health (height, birthdate, sex — skippable) → Complete.
+
+On first Google login (before wizard), the system auto-initializes default data:
+- **Categories**: Auto Complete (Weigh-In, Progress Pic, Take Measurements), Workouts (Situps, Pushups, Stairs, Cardio)
+- **Habits**: Weigh-In (triggered by entering weight), Progress Pic (triggered by photo upload), Take Measurements (triggered by measurements), workout habits with default targets
+- **Activity types**: Stairs, Walk, Run, Bike, Swim
+- **User settings**: default macro targets and timezone
+
+Welcome email sent automatically on admin approval (`SMTP via Gmail`).
 
 ## Multi-User Auth
 
@@ -90,7 +102,7 @@ Most complex module. Covers:
 - **Scenario planning** — model what-if changes to income/expenses
 - **Credit card integration** — CC bank accounts auto-create linked debt entries; CC fields sync bidirectionally (APR, minimum payment, balance, due day); balance auto-syncs after CSV import
 - **Envelope spending** — categorized bank transactions, CC payments excluded via "Mark as Transfer"
-- **Debt payoff forecaster** — four methods: Snowball, Avalanche, Highest Payment, Custom; lump sum payments (tax refunds, bonuses); side-by-side comparison; goal-based reverse calculator (target date → required payment); plan implementation links to recurring expense for cashflow
+- **Debt payoff forecaster** — four repayment methods: **Snowball** (smallest balance first), **Avalanche** (highest APR first — minimizes interest), **Highest Payment** (largest minimum first — frees cashflow fastest), **Custom** (drag-and-drop order); three payment modes: Cashflow Surplus (uses forecast ending balance), Manual (fixed amount), Goal-Based (binary search for required payment given target date); lump sum payments (tax refunds, bonuses at specific dates); side-by-side comparison; plan implementation links to recurring expense in cashflow. When a debt is paid off, its freed minimum payment cascades to the next priority debt. API: `POST /users/{id}/debt-forecast`, `/debt-forecast/compare`, `/debt-forecast/goal`
 - **Expected/actual balance display** with adjustment modal
 
 ### Goals & Analytics
@@ -110,9 +122,26 @@ Most complex module. Covers:
 - Limitation: Apple Watch sleep synced via Withings does not appear in their API
 
 **Apple Health** (push model, via [Health Auto Export](https://www.healthyapps.dev/) iOS app ~$5):
-- iPhone app sends webhooks to `POST /api/webhooks/apple-health`
-- Captures: sleep (duration, score, REM/deep/core stages), nutrition (calories, protein, carbs, fat, fiber, sugar, micronutrients)
-- Configured with `X-API-Key` generated in Haymaker Settings → Apple Health
+- iPhone app sends webhooks to `POST /api/webhooks/apple-health` (public endpoint, `X-API-Key` auth)
+- API key generated in Haymaker Settings → Apple Health; configure Health Auto Export with URL + key, aggregation=Day, hourly schedule
+
+Tables populated:
+
+| Table | Key columns |
+|-------|-------------|
+| `apple_health_nutrition` | calories, protein_g, carbs_g, fat_g, fiber_g, sugar_g, sodium_mg, cholesterol_mg, other_nutrients (JSON) |
+| `apple_health_sleep` | duration_minutes, sleep_score, regularity_score, rem_minutes, deep_minutes, core_minutes, awake_minutes, sleep_start, sleep_end, source |
+| `apple_health_steps` | step_count (daily total) |
+| `apple_health_workouts` | workout_type, duration_minutes, active_calories, distance_km, avg_heart_rate, elevation_gain_m |
+| `apple_health_meal_entries` | meal_type, calories, protein_g, carbs_g, fat_g, source_app |
+
+**Sleep score formula** (0–100): `40% Duration + 40% Depth (REM/deep stage percentages vs optimal) + 20% Interruptions (WASO + awakening count penalty)`. Requires Apple Watch for sleep stage data; without stages only duration component applies.
+
+**Regularity score**: 7-day rolling window; measures deviation from median bed/wake time. ≤15 min deviation = no penalty; quadratic penalty above that. Post-midnight times treated as continuation of previous day (e.g., 2 AM → 26.0 hours).
+
+**Workout effort score** (0–100): `50% intensity (cal/min) + 30% heart rate (% of max 190 bpm) + 20% duration (capped at 60 min)`.
+
+Apple Watch sleep data is NOT available via the Withings API — only via Apple Health.
 
 **Discord reminders** (cron, only fires if task incomplete):
 

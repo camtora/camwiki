@@ -4,7 +4,7 @@ type: project
 tags: [project, mobile, expo, react-native, fastify, postgresql, stripe, accessibility]
 created: 2026-04-16
 updated: 2026-04-16
-source_count: 1
+source_count: 2
 ---
 
 # SBCA — Stephens Bay Cottage Association
@@ -79,6 +79,58 @@ MinIO: API port 9010, console port 9011
 - Events list with category filter, RSVP, 48-hour reminder notification
 - Community noticeboard with category posts and threaded replies
 - Admin moderation — posts and lake reports require approval before going public
+
+## Accessibility System (A11Y)
+
+Primary demographic is ages 55–75. Accessibility is a first-class requirement. All screen/component code uses the `A11Y` constants object — never hardcode font sizes, colors, or touch targets.
+
+### Font Sizes
+
+| Key | Value | Use |
+|-----|-------|-----|
+| `small` | 13pt | Captions, timestamps |
+| `body` | **18pt** | All body text — minimum |
+| `bodyLarge` | 20pt | List item titles |
+| `title` | 22pt | Section titles, button labels |
+| `heading` | 26pt | Screen headings |
+| `display` | 32pt | Membership card status |
+| `hero` | 44pt | Status emoji, hero numbers |
+
+### Touch Targets
+
+| Key | Value | Use |
+|-----|-------|-----|
+| `min` | 44pt | Absolute minimum (Apple HIG + Material) |
+| `comfortable` | 52pt | Preferred for primary actions |
+| `large` | 60pt | Critical actions (Pay, Submit) |
+
+### Colors (All WCAG 2.1 AA)
+
+| Key | Hex | Contrast on white | Use |
+|-----|-----|-------------------|-----|
+| `primary` | `#1A5276` | 7.8:1 | Brand blue, links, focus |
+| `success` | `#1E8449` | 5.1:1 | Safe status |
+| `warning` | `#B7770D` | 4.7:1 | Caution |
+| `danger` | `#C0392B` | 5.2:1 | Advisory, errors |
+| `text` | `#1A1A2E` | 16.9:1 | Primary body text |
+| `textSecondary` | `#555555` | 7.0:1 | Secondary text |
+| `textMuted` | `#777777` | 4.6:1 | Large text only |
+
+### Key Rules
+
+1. **Status indicators use three channels**: emoji + colour + plain text — never colour alone (e.g., lake status: ✅ Safe / ⚠️ Caution / 🚫 Do Not Swim)
+2. **All interactive elements** need `accessibilityRole`, `accessibilityLabel`, `accessibilityHint`, and `minHeight` ≥ 44pt
+3. **Form inputs** require an explicit visible label above the field, not just a placeholder
+4. **Error messages** use `accessibilityRole="alert"`
+
+## Development Architecture
+
+| Location | Role |
+|----------|------|
+| MacBook | Xcode (iOS builds), iOS Simulator, CocoaPods, Android Studio |
+| Ubuntu server | Source files, Claude Code, Node.js, Metro bundler (port 8081), Docker |
+
+Rule: all code editing and `npm install` on Ubuntu; all native tooling on Mac. Files shared via SSHFS mount (`~/mnt/HOMENAS`).
 
 ## Infrastructure
 

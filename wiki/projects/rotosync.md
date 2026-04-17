@@ -4,7 +4,7 @@ type: project
 tags: [project, standup, meetings, firebase, daily, transcription, ai]
 created: 2026-04-16
 updated: 2026-04-16
-source_count: 1
+source_count: 2
 ---
 
 # Rotosync
@@ -37,12 +37,19 @@ AI summarization switched from Claude to Gemini/Vertex AI (commit `95a6658`).
 
 ## Meeting Types
 
-| Type | Description |
-|------|-------------|
-| Daily Standup | Team rotation, speaker turns, wrap-up sections |
-| 1:1 | Two-person meeting with focused summary format |
-| Project Meeting | Project-specific discussions |
-| Ad-hoc | Custom attendee selection, quick meetings |
+### Daily Standup
+Team rotation (least-recently-first), round-table speaker turns, live transcript. AI summary at end produces: **synopsis**, **workstreams** (by project with green/yellow/red status), **action items** (with assignees and dates), **blockers**, **key decisions**, **per-person updates**. Carryover system persists open blockers and action items across standups.
+
+Meeting type detected from calendar event title keywords: "standup", "stand-up", "daily", "sync" (without project-specific keywords).
+
+### 1:1 Meeting
+Private two-person meeting with a **persistent document** (`oneOnOneDocuments/{sortedEmails}`) that carries over between meetings with the same pair. Real-time AI extraction every 1 minute: extracts blockers, action items, updates rolling summary. At end, document is organized into Last Meeting Summary, Discussion Topics, and Workstreams sections. Shows previous 1:1 summary on join for context.
+
+### Project Meeting
+Focused discussion with a **persistent project document** (`projectDocuments/{projectName}`). Has a Purpose field (helps AI understand context), Timeframe, Google Drive links, and content area. AI updates the document during the meeting; at end, document is cleaned up and a meeting summary is added.
+
+### Ad-hoc
+Custom attendee selection, quick unstructured meetings.
 
 ## Core Features
 
@@ -72,7 +79,24 @@ AI summarization switched from Claude to Gemini/Vertex AI (commit `95a6658`).
 
 ## Google Calendar Integration
 
-Rotosync appears as a conferencing option on calendar events via a Google Workspace add-on (`meet-addon/`). One-click launch from calendar events.
+Rotosync appears as a conferencing option on calendar events via a Google Workspace Apps Script add-on (`meet-addon/`). When a user selects "Rotosync" as conferencing, Apps Script calls the `createConference` Cloud Function → creates a Daily.co room → stores meeting data in Firestore → event gets join link `https://rotosync-7b249.web.app?room={conferenceId}`.
+
+**Access control**: only emails on the calendar invite can join; host-only controls (Settings, History, Reports); teams and carryover items filtered to invited attendees.
+
+**Countdown sync**: the 2-minute pre-meeting countdown is synced to the scheduled time, not to when you joined. Join 90s late → countdown shows 30s remaining. Join 2+ minutes late → standup already active.
+
+**Moving a meeting**: `onCalendarEventUpdated` Apps Script trigger fires → calls `updateConference` Cloud Function → updates Firestore and Daily.co room. Next join sees updated schedule.
+
+## Monday.com Integration
+
+Two boards integrated into standup wrap-up sections:
+
+| Board | Board ID | Wrap-up Section | Purpose |
+|-------|----------|-----------------|---------|
+| Data Tickets | `7475653020` | "Data Tickets" | Shows unassigned tickets; "Take it" dropdown assigns to team member; Monday.com automation moves ticket to "Open" group |
+| Horizon Board 2.0 | `7464044973` | "Launches" | Upcoming charity launches grouped by week; editable Tech Status (Go/No Go/Conditional Go/At Risk) and Launch Notes; filtered: Launch Date ≥ today, not empty, status ≠ Cancelled |
+
+Cloud Functions: `getMondayTickets`, `getMondayUsers`, `assignMondayTicket`, `getCharityLaunches`, `updateLaunchNotes`, `updateLaunchStatus`. Secret: `MONDAY_API_KEY` in Firebase Secrets.
 
 ## Infrastructure
 

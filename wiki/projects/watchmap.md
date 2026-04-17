@@ -4,7 +4,7 @@ type: project
 tags: [project, plex, tautulli, map, websocket, tvos]
 created: 2026-04-16
 updated: 2026-04-16
-source_count: 1
+source_count: 2
 ---
 
 # Watchmap
@@ -45,12 +45,27 @@ Last meaningful change: 2026-04-16 (status banner + tvOS Phase 2 complete)
 - Recently Added — latest Plex library additions
 - Status banner showing home server health
 
+**Historical markers:**
+- Toggle shows past streaming locations (95 unique locations after deduplication)
+- Owner locations: cyan gradient; other users: purple gradient; 14px dots behind active markers
+- Deduplication by `label|isOwner` key (reduces ~382 raw → 95 unique)
+- Data read from `camerontora.ca/app/data/locations.json` (same file used by public map)
+
 **tvOS app (WatchMapTV):**
 - Full visual parity with web dashboard
 - Sidebar panels: Top Users and active Streams
-- Footer stats bar
-- Status banner (Phase 2)
+- Footer stats: stream counts, transcode/direct breakdown, bandwidth, CPU, RAM
+- Status banner with color-coded alerts (Phase 2)
 - App icons included
+- Polls REST API every 5 seconds (`/api/locations`, `/api/streams`, `/api/metrics`, `/api/top-users`); status every 60s
+
+## tvOS Architecture Decisions
+
+**WebKit not available on tvOS** — the initial plan was to use WKWebView to display the existing web dashboard. Apple restricts WebKit to internal use on tvOS. Solution: native SwiftUI app using MapKit — which provides a better TV experience with Siri Remote support.
+
+**REST API instead of Socket.IO** — Socket.IO on Swift requires a third-party library. Instead, the backend exposes simple REST endpoints (`/api/locations`, `/api/streams`) that the tvOS app polls every 5 seconds. Slightly less real-time but no external dependencies.
+
+**Deployment** — requires a paid Apple Developer Program ($99/year) for physical Apple TV deployment. Free/Personal Team accounts do not support tvOS device deployment.
 
 ## Cross-Repo Dependency
 
