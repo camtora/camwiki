@@ -450,6 +450,19 @@ template 6.7.
 - If the page does not exist: create it from the appropriate template.
 - A single source may touch 5-15 pages. Err toward more cross-referencing.
 
+**Step 4b — Create ADR pages for significant decisions.** For every project
+repo ingest, scan for architecture decisions and create ADR pages in
+`wiki/decisions/<project-name>/` using template 6.4. Look for decisions in:
+- `docs/` folder — architecture docs, stack comparisons, migration guides
+- `README.md` — technology choices, constraints, trade-offs
+- Commit history — commits explaining *why* (not just what) signal a real decision
+- Config files — `package.json`, `build.gradle`, `docker-compose.yaml`,
+  `requirements.txt` — technology choices are often only visible here
+
+Aim for 3–6 ADRs per project covering: platform/language choice, key external
+services, non-obvious architectural patterns, and significant constraints. Add a
+`## Key Decisions` section to the project page linking to each ADR.
+
 **Step 5 — Update index.md.** Add entries for new pages; update descriptions
 for pages that changed significantly.
 
