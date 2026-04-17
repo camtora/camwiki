@@ -3,7 +3,7 @@ title: "camerontora.ca"
 type: project
 tags: [project, website, nextjs, plex, map, oauth]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 source_count: 1
 ---
 
@@ -114,6 +114,17 @@ Both post to Discord webhook. `app/api/contact/route.ts` (contact), `app/api/ple
 - [[wiki/decisions/camerontora-ca/dedicated-oauth2-proxy]] — Own OAuth2 Proxy (port 4182) rather than shared infra proxy; site is public-by-default, SSO only unlocks private tiles
 - [[wiki/decisions/camerontora-ca/nextjs-app-router]] — Next.js App Router enables server-side header reading for auth and eliminates a separate backend for API routes
 - [[wiki/decisions/camerontora-ca/file-based-location-cache]] — Geolocated watch history stored as `locations.json` file, not a DB; shared via bind mount with Watchmap
+
+## Known Issues
+
+**Medium**
+- **ip-api.com 429 not retried** — the backfill script and Watchmap backend call ip-api.com for geolocation with no retry logic on HTTP 429 (rate limit). Silent failure; affected IPs remain unmapped.
+- **Discord webhook silent failures** — `/api/contact` and `/api/plex-access-request` post to a Discord webhook but swallow errors. If the webhook is down or rotated, submissions disappear without user feedback.
+- **No atomic write to locations.json** — Watchmap writes geolocation data directly to the file; a crash mid-write corrupts the file that the public map reads. No temp-file-then-rename pattern.
+
+**Low**
+- **Tautulli host hardcoded to Docker hostname** — `TAUTULLI_URL` assumes Docker internal networking (`http://tautulli:8181`). Running the app outside Docker (e.g., local dev) requires manual env override.
+- **No env var validation at startup** — missing required vars (e.g., `TAUTULLI_KEY`) cause runtime errors on first request, not a clear failure at container start.
 
 ## Open Questions
 

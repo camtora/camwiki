@@ -3,7 +3,7 @@ title: "Rotosync"
 type: project
 tags: [project, standup, meetings, firebase, daily, transcription, ai]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 source_count: 2
 ---
 
@@ -120,6 +120,20 @@ Cloud Functions: `getMondayTickets`, `getMondayUsers`, `assignMondayTicket`, `ge
 - [[wiki/decisions/rotosync/multi-meeting-type-architecture|Multi-meeting-type Architecture]] — Title-pattern detection (standup/project/1:1); default-to-1:1; per-type carryover visibility matrix.
 - [[wiki/decisions/rotosync/gemini-over-claude|Gemini over Claude for AI Extraction]] — Vertex AI ADC eliminates API key secret; same GCP project.
 - [[wiki/decisions/rotosync/email-scoped-carryover|Email-scoped Carryover Items]] — Email-based matching with alias normalisation; 1:1 isolation via oneOnOneAttendees field.
+
+## Known Issues
+
+**Critical**
+- **Google Meet transcript not implemented** — the Google Calendar add-on code path for fetching a Google Meet transcript returns an empty string. The feature appears in the UI but produces no output for meetings hosted on Google Meet (as opposed to Daily.co rooms). (`meet-addon/` Cloud Function)
+
+**High**
+- **Email summary not implemented** — post-meeting email dispatch calls `console.log` instead of sending via the Gmail API. Hosts do not receive summaries; no error is surfaced.
+- **Daily.co transcription has no fallback** — if Daily.co live transcription fails or is unavailable, the AI summary pipeline receives an empty transcript. The meeting ends with no workstream or action item extraction, silently.
+
+**Medium**
+- **Gemini response parsing is fragile** — AI extraction parses Gemini's output via manual JSON regex extraction rather than a schema-validated response format. Unusual Gemini outputs (extra commentary, markdown fences) cause silent parse failures and missing action items.
+- **Hardcoded wrap-up section owner emails** — the Data Tickets and Launches wrap-up sections check for specific email addresses (`strikha@`, `ctora@`) hardcoded in Cloud Function logic. Org changes require code deploys.
+- **Browser cache requires hard refresh after deploy** — Firebase Hosting does not cache-bust the main JS bundle on deploy. Users on stale cache may run old code until they force-refresh.
 
 ## Open Questions
 

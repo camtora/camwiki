@@ -3,7 +3,7 @@ title: "Docker Services"
 type: project
 tags: [project, media, docker, plex, vpn]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 source_count: 2
 ---
 
@@ -101,6 +101,17 @@ Spot-check key services:
 | Seerr | http://localhost:5055 |
 
 Expected non-healthy state: `gluetun-montreal` and `gluetun-vancouver` show `Up (unhealthy)` — they are running but idle; only the active gluetun container needs to be healthy.
+
+## Known Issues
+
+**High** _(mitigated)_
+- **Gluetun memory leak** — Gluetun leaks memory on unhealthy VPN connections (DNS-over-TLS retry accumulation). Without mitigation, containers grow to 2+ GB. **Mitigated** via `mem_limit: 1g` on all three containers — they auto-restart when the limit is hit, resetting the leak. (commits `f428736`, Jan 2026)
+- **Transmission-Gluetun network orphaning** — Transmission shares Gluetun's network namespace via container ID reference. When Gluetun restarts (due to memory limit or update), the container ID changes and Transmission loses connectivity. **Mitigated** via `gluetun-watcher.service` systemd service that auto-recreates Transmission when its active Gluetun restarts. (commit `d8675a0`, Jan 2026)
+
+**Medium** _(accepted limitations)_
+- **Vancouver Gluetun DNS issues** — `gluetun-vancouver` has broken DNS resolution making it unsuitable for active use. Transmission uses `gluetun-montreal` instead; Vancouver runs only as failover capacity. Do not switch Transmission to Vancouver without investigating.
+- **Update command must exclude Gluetun** — running bare `docker-compose up -d` (without the explicit service list) would recreate Gluetun containers, drop the VPN, and leave Transmission without a network. Always use the explicit update command in the runbook above.
+- **PIA port forwarding changes dynamically** — if PIA rotates the forwarded port, Transmission's configured port becomes stale and peers can no longer connect inbound. Requires manual port update in Transmission settings.
 
 ## Open Questions
 

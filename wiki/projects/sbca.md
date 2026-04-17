@@ -3,7 +3,7 @@ title: "SBCA — Stephens Bay Cottage Association"
 type: project
 tags: [project, mobile, expo, react-native, fastify, postgresql, stripe, accessibility]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 source_count: 2
 ---
 
@@ -167,6 +167,22 @@ Rule: all code editing and `npm install` on Ubuntu; all native tooling on Mac. F
 - [[wiki/decisions/sbca/stripe-server-side-verification|Stripe Server-side Payment Verification]] — Backend re-fetches PaymentIntent and checks metadata binding to prevent client tampering.
 - [[wiki/decisions/sbca/environment-canada-api|Environment Canada MSC GeoMet API]] — Free federal hydrometric API; stations 02EB018 (Beaumaris) and 02EB008 (Baysville).
 - [[wiki/decisions/sbca/expo-push-not-firebase|Expo Push over Firebase]] — Single Expo endpoint; no Firebase project or google-services.json needed.
+
+## Known Issues
+
+**High**
+- **RSVP delete missing `eventId` filter** — `DELETE /events/:id/rsvp` deletes by `memberId` only, with no `eventId` constraint. Calling the endpoint on event B cancels the member's RSVP on event A and miscounts attendance. (`backend/src/routes/events.ts` lines 70–75)
+- **Payment confirmation not transactional** — `POST /members/dues/confirm` re-fetches the Stripe `PaymentIntent` and updates the DB, but there is no transaction wrapper. If the DB update fails after Stripe confirms payment, the member remains in `expired` state despite having paid.
+- **Push notification errors silently swallowed** — the Expo push batch loop catches errors and logs them but has no retry or alerting. If the Expo Push API is down, lake and dues-expiry alerts are lost without any indication.
+
+**Medium**
+- **File upload extension not validated** — `POST /upload` accepts any file extension from the client with no allowlist or MIME-type check. A user could upload arbitrary binaries to MinIO. (`backend/src/routes/upload.ts`)
+- **Water level delta uses row offset, not date** — the 7-day and 30-day delta calculations use `LIMIT 1 OFFSET 7/30` (row count) rather than filtering by date. If the sync job misses a day, the delta window compresses or extends unpredictably. (`backend/src/jobs/syncWaterLevels.ts` lines 48–54)
+- **Admin token (8h) has no refresh mechanism** — board members are silently logged out of the admin portal mid-session with no refresh token or "stay signed in" option.
+- **Dues expiry check has a 24-hour blind spot** — the reminder cron uses a 24-hour `gte`/`lte` window. If the job skips a day or drifts in timing, members with expiry dates in the missed window never receive a renewal reminder.
+
+**Low**
+- **No pagination on lake reports** — `GET /lake/reports` returns all approved reports; the mobile app renders them all in a `ScrollView`. Will degrade on older devices as the report count grows.
 
 ## Open Questions
 

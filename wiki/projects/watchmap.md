@@ -3,7 +3,7 @@ title: "Watchmap"
 type: project
 tags: [project, plex, tautulli, map, websocket, tvos]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 source_count: 2
 ---
 
@@ -103,6 +103,21 @@ Geolocation results cached for 24 hours (ip-api.com TTL).
 - [[wiki/decisions/watchmap/single-file-frontend|Single-file Frontend]] — No build step; volume-mounted for instant reload; zero frontend dependencies.
 - [[wiki/decisions/watchmap/ip-api-geolocation|ip-api.com Geolocation]] — Free, no API key; 24-hour TTL cache; LAN IPs mapped to configurable home location.
 - [[wiki/decisions/watchmap/proc-mount-system-stats|Host /proc Mount for System Stats]] — Read-only /proc mount gives accurate real-time CPU/RAM/load; safer than Docker socket.
+
+## Known Issues
+
+**High**
+- **No WebSocket reconnection strategy** — if the Socket.IO connection drops, the web client does not attempt to reconnect. The user must manually refresh the page to restore live updates.
+- **`LOCATIONS_FILE` path hardcoded to camerontora.ca tree** — the backend hard-codes the output path to `camerontora.ca/app/data/locations.json`. If camerontora.ca is ever restructured or the bind mount path changes, writes silently fail with no error surfacing.
+
+**Medium**
+- **Multiple overlapping polling loops** — the backend runs separate setInterval loops for sessions, metrics, and geolocation with no coordination. Under high load or slow API responses, loops can overlap, causing duplicate Tautulli API calls.
+- **Debug mode left in production** — pressing `D` on the web dashboard enables a debug overlay. This is not guarded by any auth check.
+- **tvOS deployment requires paid Apple Developer Program ($99/year)** — the WatchMapTV app cannot be installed on a physical Apple TV without an active paid developer account. Personal/Free Team accounts cannot deploy to tvOS devices.
+
+**Low**
+- **3340-line monolithic HTML file** — the entire web frontend is a single `index.html` file. Adding features requires editing a file this large with no bundler or component isolation.
+- **/proc mount fails silently** — if the host `/proc` is not mounted into the container, CPU/RAM stats return zeros or NaN without logging an error.
 
 ## Sources
 

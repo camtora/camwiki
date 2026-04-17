@@ -3,7 +3,7 @@ title: "Clarity"
 type: project
 tags: [project, globalfaces, android, kotlin, stripe, twilio]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 source_count: 1
 ---
 
@@ -76,6 +76,21 @@ Snowflake connection: `canada-central.azure` account, key-pair auth (`snowflake_
 - [[wiki/decisions/clarity/stripe-tap-to-pay|Stripe Tap to Pay on Android]] — Device NFC chip as card reader; no external hardware; monthly donations create Stripe Subscription.
 - [[wiki/decisions/clarity/snowflake-as-database|Snowflake as Database]] — Compliance legacy; EVENT_LOG as immutable ledger; signatures in internal stage; time-travel audit queries.
 - [[wiki/decisions/clarity/twilio-sms-verification|Twilio SMS Verification]] — Mandatory YES/NO consent before payment; 2s polling loop; Twilio signature validation on every inbound webhook.
+
+## Known Issues
+
+**Critical**
+- **Duplicate endpoint at main.py line ~849** — a second definition of a route references undefined variables and would crash the backend process if the code path is ever hit. Identified via code inspection.
+- **Twilio webhook signature validation disabled** — the inbound Twilio SMS handler has `validate_signature` commented out with a "re-enable later" note. Any HTTP client can POST fake SMS consent events.
+
+**High**
+- **CORS wildcard `allow_origins=["*"]`** — set in FastAPI middleware with a `# TODO: tighten` comment. Exposes the API to cross-origin requests from any domain.
+- **No transaction rollback on multi-step payment flows** — if a donor record is created in Snowflake but the Stripe subscription call subsequently fails, the Snowflake `EVENT_LOG` row is orphaned with no corresponding Stripe object.
+- **Session ownership not validated** — session endpoints do not verify that the requesting fundraiser owns the session_id in the URL, enabling cross-session data reads.
+
+**Medium**
+- **Fallback donor email `"donor@example.com"`** — used when no email is provided; creates real Stripe customer objects with a placeholder address that is hard to clean up later.
+- **NFC hard failure with no retry** — tap-to-pay NFC failure shows an error but does not offer a retry flow; fundraiser must restart the payment flow manually.
 
 ## Open Questions
 

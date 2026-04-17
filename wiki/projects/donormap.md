@@ -3,7 +3,7 @@ title: "DonorMap"
 type: project
 tags: [project, globalfaces, firebase, snowflake, map, firetv]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 source_count: 2
 ---
 
@@ -218,6 +218,20 @@ Fire TV stays connected permanently; pairing code only needed on first install o
 - [[wiki/decisions/donormap/estimated-coa-revenue|Estimated COA Revenue]] — Fixed rates per product type; labelled EST. REVENUE; actual revenue unknown at acquisition time.
 - [[wiki/decisions/donormap/twelve-noon-time-window|12pm–12pm Time Window]] — Midday-to-midday window captures full business day; eliminates timezone edge cases.
 - [[wiki/decisions/donormap/firetv-pairing-code-auth|Fire TV Pairing Code Auth]] — 6-digit code + custom Firebase token; OAuth impossible on sideloaded APK.
+
+## Known Issues
+
+**High**
+- **SQL injection risk in date parameters** — Cloud Functions pass `TARGET_DATE` and date range inputs into Snowflake queries via string interpolation without parameterization. Only internal GFD users can reach these endpoints (Firebase Auth + domain restriction), which limits exposure, but the underlying pattern is unsafe.
+
+**Medium**
+- **Hardcoded USD→CAD rate of 1.43** — global revenue calculations convert USD to CAD at a fixed 1.43 rate. Exchange rate drift will silently make the "Global" revenue figure inaccurate over time.
+- **Snowflake connection not pooled** — each Cloud Function invocation opens a new Snowflake connection. Under the 15-minute refresh schedule this is fine, but concurrent HTTP requests to history endpoints could exhaust connection limits.
+- **Hardcoded admin email** — the admin settings feature (charity color customization) is restricted to `ctora@globalfacesdirect.com` hardcoded in Cloud Function logic. Staff changes require a code deploy.
+
+**Low** _(documented behavior, not bugs)_
+- **Map dot count vs sidebar count discrepancy** — sidebar counts all `Approved Net` donors; map shows only donors with non-null coordinates. Count will always be ≥ dots. This is by design but surprises new users.
+- **`yesterdayTotal` field holds last-week total** — the progress bar's comparison value is named `yesterdayTotal` in code but actually holds the 7-days-ago total. Renaming is low risk but will confuse future contributors.
 
 ## Open Questions
 

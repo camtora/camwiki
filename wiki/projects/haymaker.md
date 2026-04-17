@@ -3,7 +3,7 @@ title: "Haymaker"
 type: project
 tags: [project, health, habits, budget, fastapi, nextjs, postgresql]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 source_count: 2
 ---
 
@@ -206,6 +206,23 @@ Daily at 3 AM:
 - [[wiki/decisions/haymaker/multi-user-registration-flow]] — OAuth2 Proxy allowlist + Discord approval workflow; no self-serve registration
 - [[wiki/decisions/haymaker/pay-period-budget-model]] — Budget organized by pay period, not calendar month; reflects actual income timing
 - [[wiki/decisions/haymaker/manual-data-priority]] — Manual entry always authoritative; auto-synced data (Apple Health, Withings) supplements analytics only
+
+## Known Issues
+
+**Critical**
+- **Duplicate `fat_g` column in DailyEntry model** — `apps/api/app/models.py` lines 183 and 185 both define `fat_g`. This will crash Alembic migrations that autogenerate from the model diff. Needs manual deduplication before the next schema migration.
+
+**High**
+- **Beat training restricted to `user_id=1`** — the 5 beat-training endpoints hardcode `user_id=1` as the only authorized user. Other users silently get no beat data. Documented in code but not exposed in UI.
+
+**Medium**
+- **Apple Health debug `print()` statements in production** — `apps/api/app/routes.py` has debug print statements active in the Apple Health webhook handlers; these log raw health data to container stdout.
+- **Withings token refresh failures logged as warnings** — expired OAuth tokens silently stop syncing weight data; the user sees stale auto-fill values with no alert.
+- **CSV bank import silently skips malformed rows** — bad rows in uploaded CSVs are dropped without feedback; partial imports appear successful.
+
+**Low**
+- **Envelope-transaction linking incomplete** — the envelope budget feature (Phase 4) is scaffolded but transactions are not yet linked to envelopes; cashflow and envelope views can diverge.
+- **Savings allocations don't auto-deduct from cashflow** — savings goals are tracked separately; the cashflow forecast doesn't reduce projected ending balance when savings allocations are added.
 
 ## Open Questions / Backlog Ideas
 

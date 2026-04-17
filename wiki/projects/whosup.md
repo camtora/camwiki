@@ -3,7 +3,7 @@ title: "Who's Up"
 type: project
 tags: [project, social, ios, swift, nodejs, postgis, maps]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 source_count: 2
 ---
 
@@ -193,6 +193,20 @@ Zero-downtime deploy: `git pull` → `npm run build` → `npx prisma migrate dep
 - [[wiki/decisions/whosup/host-approval-gate|Host Approval Gate]] — Join requests go PENDING→APPROVED/DENIED; chat room access and exact location bundled into approval.
 - [[wiki/decisions/whosup/ios-only-swiftui|iOS-only SwiftUI]] — MapKit (no API key), Sign in with Apple (App Store requirement for social apps), iOS 17+.
 - [[wiki/decisions/whosup/postgis-deferred|PostGIS Deferred]] — PostGIS installed but Haversine in app code for now; migration path clear when scale requires it.
+
+## Known Issues
+
+**Critical**
+- **Apple/Google ID tokens decoded without signature verification** — the auth layer decodes JWT tokens from Apple and Google Sign In but does not verify the cryptographic signature. A forged token with any valid-looking payload would be accepted. (`backend/src/routes/auth/`)
+- **Socket.io incompatible with PM2 cluster mode** — the app runs under PM2 in cluster mode (`instances: 'max'`) but Socket.io uses in-memory rooms only. Real-time events (join request notifications, room messages) are not delivered if the client and server are on different PM2 processes. Sticky sessions are not configured.
+- **Activity capacity race condition** — concurrent join-request approvals are not serialized. Two simultaneous approvals can push participant count above `maxParticipants`. No DB-level lock or optimistic concurrency check on the approval path.
+
+**Medium**
+- **Location fuzzing uses `Math.random()`** — coarse coordinate fuzzing at presence creation uses `Math.random()`, which is not cryptographically secure. A determined attacker who makes many requests for the same user could statistically narrow down the true location.
+- **Google Sign In not implemented in iOS** — the iOS app shows a Google Sign In option but the handler is a `// TODO` stub. Users who tap it get no feedback.
+
+**Low**
+- **No cleanup of expired presences** — expired `Presence` rows accumulate indefinitely; no cron or cascade delete removes them. The `Presence(areaId, expiresAt)` index keeps query performance acceptable for now, but the table will grow without bound.
 
 ## Open Questions
 
