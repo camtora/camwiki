@@ -51,6 +51,12 @@ Grep patterns:
 - **Pages updated:** index.md
 - **Notes:** Retrospective pass on the infrastructure repo to capture architectural decisions as ADRs. 5 decisions documented covering monitoring, status dashboard hosting, SSO auth strategy, DNS failover design, and the Overseerr→Seerr phased migration (Phases 2–3 still pending).
 
+## [2026-04-16] edit | camwiki self-documentation
+
+- **Pages created:** wiki/projects/camwiki
+- **Pages updated:** index.md
+- **Notes:** The wiki now documents itself as a project — concept, architecture, linked repos, workflows, key design decisions.
+
 ## [2026-04-16] ingest | infrastructure docs/ folder — 13 markdown files
 
 - **Source:** `raw/repos/infrastructure/docs/` (BACKLOG.md, DNS-AND-SSL.md, DNS-FAILOVER.md, MACOS-MOUNT.md, MONITORING.md, SECURITY.md, SEERR-MIGRATION.md, SSO-GUIDE.md, STATUS-DASHBOARD.md, WHOSUP.md, WHOSUP-BACKEND-REQUIREMENTS.md, WHOSUP-PROJECT-PLAN.md, SBA-BACKEND-REQUIREMENTS.md)

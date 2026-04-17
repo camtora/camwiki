@@ -12,6 +12,7 @@ Last updated: 2026-04-16
 Home-server projects — software stacks, services, personal tools.
 
 - [[wiki/projects/arr-suite|Arr Suite]] — Radarr/Sonarr/Jackett/FlareSolverr/Recyclarr media automation pipeline. `1 source`
+- [[wiki/projects/camwiki|camwiki]] — This wiki; LLM-maintained engineering knowledge base using Claude + Obsidian. `1 source`
 - [[wiki/projects/camerontora-ca|camerontora.ca]] — Personal landing page and home dashboard; Plex watch history map, service tiles, Google SSO. `1 source`
 - [[wiki/projects/clarity|Clarity]] — Android door-to-door fundraising app for GlobalFaces Direct; Stripe tap-to-pay, Twilio SMS, Snowflake. `2 sources`
 - [[wiki/projects/donormap|DonorMap]] — Real-time donor viz map for GlobalFaces Direct; Firebase + Snowflake + Fire TV office displays. `1 source`
