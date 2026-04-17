@@ -142,3 +142,10 @@ Grep patterns:
 - **Pages created:** wiki/sources/desktop-hard-drive-arrangement, wiki/sources/desktop-camnas2-ops-reference, wiki/sources/desktop-sso-guide
 - **Pages updated:** wiki/infrastructure/storage-raid (per-drive SMART health, CAMNAS2 drive table, open TODOs), wiki/infrastructure/home-server (hostname CAMNAS2, Ubuntu 24.04.3 LTS, Docker systemd mount dependency), wiki/projects/plex-media-server (backup/restore runbook), wiki/infrastructure/oauth2-proxy (cookie domain trick, 3 nginx patterns, 6-step checklist, troubleshooting table), index.md
 - **Notes:** sde has 16 bad sectors — priority replacement candidate in HOMENAS RAID5. CAMNAS2 ops reference is dated 2025-12-29 and partially outdated (references Ombi/Overseerr). SSO guide surfaces the proxy_cookie_domain trick as the key mechanism and common failure point. Ombi credential in hard_drive_arrangement.txt deliberately omitted from wiki.
+
+## [2026-04-17] edit | Add git history pages for all 11 repos
+
+- **Source:** `raw/repos/*` (all 11 linked repos)
+- **Pages created:** wiki/history/clarity, wiki/history/camerontora-ca, wiki/history/docker-services, wiki/history/watchmap, wiki/history/donormap, wiki/history/deployment, wiki/history/haymaker, wiki/history/infrastructure, wiki/history/rotosync, wiki/history/sbca, wiki/history/whosup
+- **Pages updated:** CLAUDE.md (wiki/history/ added to directory layout; Step 4c added to ingest workflow), index.md (History section)
+- **Notes:** Format is `hash  YYYY-MM-DD  subject` one line per commit, full history. Haymaker and Infrastructure are the most active repos (181 and 186 commits respectively). History pages are overwritten (not appended) on each re-ingest per Step 4c.

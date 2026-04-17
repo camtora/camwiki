@@ -43,7 +43,8 @@ camwiki/
     ├── decisions/     ← ADRs and significant choices
     ├── business/      ← contracts, clients, metrics, entities
     ├── concepts/      ← technology reference knowledge
-    └── sources/       ← one summary page per raw source ingested
+    ├── sources/       ← one summary page per raw source ingested
+    └── history/       ← auto-generated git log per repo; re-generated on ingest
 ```
 
 **Hard rules:**
@@ -462,6 +463,13 @@ repo ingest, scan for architecture decisions and create ADR pages in
 Aim for 3–6 ADRs per project covering: platform/language choice, key external
 services, non-obvious architectural patterns, and significant constraints. Add a
 `## Key Decisions` section to the project page linking to each ADR.
+
+**Step 4c — Regenerate history page.** For every repo ingest, overwrite
+`wiki/history/<project>.md` with fresh output from:
+```bash
+git -C raw/repos/<name> log --format="%h  %as  %s"
+```
+Update the `updated` date in frontmatter. Do not append — always overwrite.
 
 **Step 5 — Update index.md.** Add entries for new pages; update descriptions
 for pages that changed significantly.

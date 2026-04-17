@@ -159,6 +159,14 @@ Technology reference knowledge, principles, and cross-cutting ideas.
 
 ---
 
+## History
+
+Commit logs per project. Generated from `git log`; re-generated on each repo ingest.
+
+[[wiki/history/camerontora-ca|camerontora.ca]] · [[wiki/history/clarity|Clarity]] · [[wiki/history/deployment|Deployment]] · [[wiki/history/docker-services|Docker Services]] · [[wiki/history/donormap|DonorMap]] · [[wiki/history/haymaker|Haymaker]] · [[wiki/history/infrastructure|Infrastructure]] · [[wiki/history/rotosync|Rotosync]] · [[wiki/history/sbca|SBCA]] · [[wiki/history/watchmap|Watchmap]] · [[wiki/history/whosup|Who's Up]]
+
+---
+
 ## Sources
 
 One entry per raw source ingested.
