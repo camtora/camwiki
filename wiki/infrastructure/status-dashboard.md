@@ -3,8 +3,8 @@ title: "Status Dashboard"
 type: infrastructure
 tags: [infra, monitoring, dashboard, gcp]
 created: 2026-04-16
-updated: 2026-04-16
-source_count: 3
+updated: 2026-04-17
+source_count: 4
 ---
 
 # Status Dashboard
@@ -128,6 +128,30 @@ Cloud Scheduler (*/5 min)
         └── Sends Discord alerts on state changes
 ```
 
+## Wiki Q&A Panel
+
+Natural-language Q&A panel backed by the camwiki knowledge base. Public-facing — no authentication required.
+
+| Property | Value |
+|----------|-------|
+| Endpoint | `POST /api/wiki-qa` |
+| Auth | None (public) |
+| Model | `claude-sonnet-4-6` |
+| Max tokens | 600 |
+| Answer format | Markdown, rendered via `marked` |
+
+**How it works:**
+- On Cloud Run startup, backend fetches `wiki_context.txt` from GCS bucket `camwiki-context` into memory
+- Background thread re-fetches every 3600s — wiki changes propagate within 1 hour without a redeploy
+- Home server runs an hourly cron: `upload_wiki_context.py` reads `wiki/**/*.md` (skipping `sources/`) and uploads to GCS
+- `ANTHROPIC_API_KEY` stored in GCP Secret Manager, injected at runtime (not a plain env var)
+- Cloud Run memory bumped to 512Mi to accommodate `anthropic` + `google-cloud-storage` dependencies
+
+**Divergence from original spec:** Originally designed as admin-only (`adminAuth` guard). Shipped as fully public — anyone visiting `status.camerontora.ca` can query it.
+
+Upload script: `/home/camerontora/camwiki/scripts/upload_wiki_context.py`
+Full implementation spec: `infrastructure/docs/WIKI-QA-FEATURE.md`
+
 ## Plex Platform Banner
 
 On every `/api/status` poll the backend calls `https://status.plex.tv/api/v2/summary.json` (Atlassian Statuspage public API) in parallel with all other health checks. When Plex reports an active incident the frontend renders a banner above the failover banner:
@@ -142,6 +166,11 @@ On every `/api/status` poll the backend calls `https://status.plex.tv/api/v2/sum
 
 Backend field: `plex_platform: { indicator, description, incidents[] }` in `/api/status` response.
 Frontend component: `PlexStatusBanner.jsx`.
+
+## Change Log
+
+- 2026-04-17: Wiki Q&A panel added (public, GCS-backed, markdown rendering, Secret Manager for API key)
+- 2026-04-16: Plex platform status banner added; jshor96@aol.com granted OAuth access
 
 ## Key Design Decisions
 

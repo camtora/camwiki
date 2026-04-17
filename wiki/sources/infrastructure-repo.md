@@ -3,7 +3,7 @@ title: "Source: infrastructure repo"
 type: source
 tags: [source, infrastructure, networking, security, monitoring]
 created: 2026-04-16
-updated: 2026-04-16
+updated: 2026-04-17
 source_count: 1
 ---
 
@@ -49,10 +49,10 @@ None — first ingest.
 
 - [[wiki/infrastructure/home-server]] — created
 - [[wiki/infrastructure/nginx-reverse-proxy]] — created
-- [[wiki/infrastructure/oauth2-proxy]] — created
+- [[wiki/infrastructure/oauth2-proxy]] — created; jshor96 access added 2026-04-17
 - [[wiki/infrastructure/gcp-external-monitoring]] — created
 - [[wiki/infrastructure/health-api]] — created
-- [[wiki/infrastructure/status-dashboard]] — created
+- [[wiki/infrastructure/status-dashboard]] — created; Wiki Q&A panel + Plex banner added 2026-04-17
 - [[wiki/infrastructure/gluetun-vpn]] — created
 - [[wiki/infrastructure/dns-ssl]] — created
 - [[wiki/infrastructure/storage-raid]] — created

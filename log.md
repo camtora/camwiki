@@ -156,3 +156,10 @@ Grep patterns:
 - **Pages created:** none
 - **Pages updated:** wiki/projects/camwiki.md (change log entry noting raw/ exclusion)
 - **Notes:** Obsidian Sync was following symlinks in raw/repos/ and pushing node_modules from all 11 linked repos to the remote vault. Fixed by adding `raw/` to Obsidian Sync excluded folders. Remote vault will purge the raw/ content automatically.
+
+## [2026-04-17] ingest | infrastructure repo (re-ingest: Wiki Q&A + Plex banner)
+
+- **Source:** `raw/repos/infrastructure`
+- **Pages created:** none
+- **Pages updated:** wiki/infrastructure/status-dashboard (Wiki Q&A panel section, Plex banner change log), wiki/infrastructure/oauth2-proxy (jshor96 access, allowed users list), wiki/sources/infrastructure-repo (pages updated list), wiki/history/infrastructure (regenerated)
+- **Notes:** Wiki Q&A panel shipped as public (no auth) — diverges from original admin-only spec. ANTHROPIC_API_KEY in Secret Manager, not plain env var. Cloud Run memory 512Mi. jshor96@aol.com added to authenticated_emails.txt.

@@ -4,7 +4,7 @@ type: infrastructure
 tags: [infra, auth, sso, google, oauth]
 created: 2026-04-16
 updated: 2026-04-17
-source_count: 3
+source_count: 4
 ---
 
 # OAuth2 Proxy
@@ -42,6 +42,11 @@ Nginx forwards requests for protected services to oauth2-proxy for authenticatio
 - To add or remove allowed users, edit `authenticated_emails.txt` and reload the container
 - Cookie domain `.camerontora.ca` means a single login covers all subdomains
 - To force re-authentication: clear `_oauth2_proxy` cookies for `*.camerontora.ca` in browser
+
+**Current allowed users (`authenticated_emails.txt`):**
+- `cameron.tora@gmail.com`
+- `cameron@camerontora.ca`
+- `jshor96@aol.com` _(added 2026-04-16)_
 
 ## Per-Service Authorization
 
