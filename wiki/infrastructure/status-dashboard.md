@@ -4,7 +4,7 @@ type: infrastructure
 tags: [infra, monitoring, dashboard, gcp]
 created: 2026-04-16
 updated: 2026-04-16
-source_count: 2
+source_count: 3
 ---
 
 # Status Dashboard
@@ -23,7 +23,7 @@ A GCP-hosted status page that displays health and metrics for all home server se
 | GCP project | `cameron-tora` / `us-central1` |
 | Deploy | GitHub Actions → Cloud Run |
 
-## Services Monitored (15)
+## Services Monitored (14)
 
 ### Public
 | Service | URL |
@@ -31,9 +31,6 @@ A GCP-hosted status page that displays health and metrics for all home server se
 | Main Site | `camerontora.ca` |
 | Plex | `plex.camerontora.ca` |
 | Seerr | `seerr.camerontora.ca` |
-| Ombi (legacy) | `ombi.camerontora.ca` |
-| Who's Up API | `whosup.camerontora.ca` |
-| Status Dashboard | `status.camerontora.ca` |
 
 ### Protected (OAuth)
 | Service | URL |
@@ -51,6 +48,8 @@ A GCP-hosted status page that displays health and metrics for all home server se
 | Service | URL |
 |---------|-----|
 | Health API | `health.camerontora.ca/api/health/ping` |
+| Who's Up API | `whosup.camerontora.ca/api/health` |
+| SBA API | `sba.camerontora.ca/api/health` |
 
 ## Health Check Logic
 
@@ -128,6 +127,21 @@ Cloud Scheduler (*/5 min)
         ├── Reads DNS state from GoDaddy API
         └── Sends Discord alerts on state changes
 ```
+
+## Plex Platform Banner
+
+On every `/api/status` poll the backend calls `https://status.plex.tv/api/v2/summary.json` (Atlassian Statuspage public API) in parallel with all other health checks. When Plex reports an active incident the frontend renders a banner above the failover banner:
+
+| Plex `indicator` | Banner colour |
+|-----------------|---------------|
+| `none` | Hidden |
+| `minor` | Amber |
+| `major` / `critical` | Red |
+
+**Banner content:** Actual incident title + current status (e.g. "Issues with plex.tv API — Investigating"), page-level description as subtitle, and a link to `status.plex.tv`. Distinguishes "Plex the company is having issues" from "our server is down."
+
+Backend field: `plex_platform: { indicator, description, incidents[] }` in `/api/status` response.
+Frontend component: `PlexStatusBanner.jsx`.
 
 ## Key Design Decisions
 

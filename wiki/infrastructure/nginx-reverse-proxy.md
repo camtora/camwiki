@@ -59,6 +59,7 @@ Internet → Nginx (80/443)
 
 ## Configuration Notes
 
+- `overseerr.camerontora.ca` 301-redirects to `seerr.camerontora.ca` (Phase 1 of Seerr migration — container still runs Overseerr; Phase 2 swaps the image)
 - HTTP/2 enabled via `http2 on;` directive (not the deprecated `listen 443 ssl http2;` form)
 - ACME challenge handler in `00-http-redirect.conf` uses `default_server` — any named server block on port 80 must include its own `/.well-known/acme-challenge/` location or certbot challenges will fail
 - Custom 403 page served to authenticated users not on the allowed email list
