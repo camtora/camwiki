@@ -105,7 +105,7 @@ Every wiki page has YAML frontmatter (`title`, `type`, `tags`, `created`, `updat
 ## Change Log
 
 - 2026-04-17: Known Issues sections added to 9 project pages (scrape of all repos); 3 desktop docs ingested (drive layout, ops reference, SSO guide); 11 git history pages created under wiki/history/; CLAUDE.md updated with Step 4c (history regeneration) and Step 4b (ADR creation); 10 concept pages written; ADR deep dives for rotosync, donormap, watchmap, camwiki (23 ADRs)
-- 2026-04-17: Obsidian Sync set up — server → Mac + iPhone; replaced Obsidian Git plugin on Mac
+- 2026-04-17: Obsidian Sync set up — server → Mac + iPhone; replaced Obsidian Git plugin on Mac; `raw/` excluded from sync to prevent node_modules storm across all linked repos
 - 2026-04-16: Initial scaffold, 11 repo ingests, infrastructure ADR retro pass, docs/ folder ingest (13 docs)
 
 ## Open Questions

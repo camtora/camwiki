@@ -149,3 +149,10 @@ Grep patterns:
 - **Pages created:** wiki/history/clarity, wiki/history/camerontora-ca, wiki/history/docker-services, wiki/history/watchmap, wiki/history/donormap, wiki/history/deployment, wiki/history/haymaker, wiki/history/infrastructure, wiki/history/rotosync, wiki/history/sbca, wiki/history/whosup
 - **Pages updated:** CLAUDE.md (wiki/history/ added to directory layout; Step 4c added to ingest workflow), index.md (History section)
 - **Notes:** Format is `hash  YYYY-MM-DD  subject` one line per commit, full history. Haymaker and Infrastructure are the most active repos (181 and 186 commits respectively). History pages are overwritten (not appended) on each re-ingest per Step 4c.
+
+## [2026-04-17] edit | Obsidian Sync raw/ exclusion
+
+- **Source:** n/a
+- **Pages created:** none
+- **Pages updated:** wiki/projects/camwiki.md (change log entry noting raw/ exclusion)
+- **Notes:** Obsidian Sync was following symlinks in raw/repos/ and pushing node_modules from all 11 linked repos to the remote vault. Fixed by adding `raw/` to Obsidian Sync excluded folders. Remote vault will purge the raw/ content automatically.
