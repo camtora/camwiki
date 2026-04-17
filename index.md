@@ -67,6 +67,14 @@ Architecture decision records and significant choices.
 - [[wiki/decisions/docker-services/transmission-gluetun-network-mode|Transmission in Gluetun Namespace]] — Strictest VPN kill-switch via network_mode; no leak possible. `1 source`
 - [[wiki/decisions/docker-services/recyclarr-for-quality-profiles|Recyclarr for Quality Profiles]] — TRaSH Guides sync into Radarr/Sonarr; config version-controlled. `1 source`
 
+**haymaker**
+- [[wiki/decisions/haymaker/fastapi-over-nextjs-api-routes|FastAPI over Next.js API Routes]] — Compute-heavy logic warrants Python; budget forecasting, debt simulation, macro math. `1 source`
+- [[wiki/decisions/haymaker/self-hosted-not-cloud|Self-hosted, Not Cloud]] — Health and financial data off third-party cloud intentionally; PostgreSQL + MinIO. `1 source`
+- [[wiki/decisions/haymaker/apple-health-push-not-pull|Apple Health Push Model]] — Health Auto Export webhook; Apple has no server-side pull API. `1 source`
+- [[wiki/decisions/haymaker/multi-user-registration-flow|Multi-user Registration Flow]] — OAuth2 allowlist + Discord approval; no self-serve registration. `1 source`
+- [[wiki/decisions/haymaker/pay-period-budget-model|Pay-period Budget Model]] — Pay periods not calendar months; matches actual income timing. `1 source`
+- [[wiki/decisions/haymaker/manual-data-priority|Manual Data Priority]] — Manual entry authoritative; auto-sync supplements analytics only. `1 source`
+
 **infra**
 - [[wiki/decisions/infra/decision-gcp-external-monitoring|GCP External Monitoring]] — Why build a custom GCP Cloud Run monitor instead of keeping Uptime Kuma or using a third-party service. `1 source`
 - [[wiki/decisions/infra/decision-status-dashboard-on-gcp|Status Dashboard on GCP]] — Why host the status dashboard on GCP Cloud Run rather than the home server. `1 source`

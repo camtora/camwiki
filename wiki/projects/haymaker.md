@@ -198,6 +198,15 @@ Daily at 3 AM:
 | Daily fitness goals | Situps, pushups, stairs, cardio (minutes) |
 | Integrations | Discord webhook URL, Withings OAuth, Apple Health API key |
 
+## Key Decisions
+
+- [[wiki/decisions/haymaker/fastapi-over-nextjs-api-routes]] — Separate FastAPI (Python) service for compute-heavy logic: budget forecasting, macro tracking, debt simulation
+- [[wiki/decisions/haymaker/self-hosted-not-cloud]] — Personal health and financial data intentionally kept off cloud (no Supabase/Vercel); PostgreSQL + MinIO self-hosted
+- [[wiki/decisions/haymaker/apple-health-push-not-pull]] — Apple Health via Health Auto Export push webhook; Apple has no server-side pull API
+- [[wiki/decisions/haymaker/multi-user-registration-flow]] — OAuth2 Proxy allowlist + Discord approval workflow; no self-serve registration
+- [[wiki/decisions/haymaker/pay-period-budget-model]] — Budget organized by pay period, not calendar month; reflects actual income timing
+- [[wiki/decisions/haymaker/manual-data-priority]] — Manual entry always authoritative; auto-synced data (Apple Health, Withings) supplements analytics only
+
 ## Open Questions / Backlog Ideas
 
 - **Renpho integration** — body circumference measurements; API unlikely, Apple Health only exposes waist

@@ -88,3 +88,10 @@ Grep patterns:
 - **Pages created:** wiki/decisions/camerontora-ca/dedicated-oauth2-proxy, wiki/decisions/camerontora-ca/nextjs-app-router, wiki/decisions/camerontora-ca/file-based-location-cache, wiki/decisions/docker-services/transmission-gluetun-network-mode, wiki/decisions/docker-services/recyclarr-for-quality-profiles
 - **Pages updated:** wiki/projects/camerontora-ca (Key Decisions section), wiki/projects/docker-services (Key Decisions upgraded with ADR links), index.md (Decisions section now grouped by project)
 - **Notes:** camerontora.ca's dedicated OAuth2 Proxy is a deliberate exception to the unified SSO design — the public-by-default access model requires unauthenticated pass-through. docker-services docs were thin but VPN-MIGRATION.md captured the network_mode rationale well.
+
+## [2026-04-16] ingest | decision deep dive — Haymaker (6 ADRs)
+
+- **Source:** `raw/repos/haymaker` — stack-comparison.md, docs/multi-user-refactor.md, docs/apple-health-integration.md, docs/debt-payoff-forecaster.md, docker-compose.yaml, apps/api/app/deps.py, apps/api/app/routes.py, commit history (50 commits reviewed)
+- **Pages created:** wiki/decisions/haymaker/fastapi-over-nextjs-api-routes, wiki/decisions/haymaker/self-hosted-not-cloud, wiki/decisions/haymaker/apple-health-push-not-pull, wiki/decisions/haymaker/multi-user-registration-flow, wiki/decisions/haymaker/pay-period-budget-model, wiki/decisions/haymaker/manual-data-priority
+- **Pages updated:** wiki/projects/haymaker (Key Decisions section), index.md
+- **Notes:** stack-comparison.md is a gold-standard source — explicitly documents why FastAPI over Next.js API routes, why self-hosted over Supabase/Vercel, and why OAuth2 Proxy over NextAuth. multi-user-refactor.md documents the full registration workflow. Apple Health push model driven by Apple having no server-side pull API. Pay-period budget model reflects actual income timing rather than calendar convention. Manual data priority is a deliberate UX/trust decision (commit fef4490).
