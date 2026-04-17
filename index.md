@@ -152,6 +152,7 @@ Technology reference knowledge, principles, and cross-cutting ideas.
 - [[wiki/concepts/geospatial-postgis|Geospatial / PostGIS]] — PostGIS spatial indexes, ST_DWithin, Haversine vs DB-layer queries, location fuzzing. `0 sources`
 - [[wiki/concepts/jwt-authentication|JWT Authentication]] — Stateless token auth; access+refresh pattern (SBCA) vs single long-lived token (Whosup). `0 sources`
 - [[wiki/concepts/oauth2-proxy-pattern|OAuth2 Proxy Pattern]] — Nginx sidecar auth; X-Forwarded-Email; 401=Up; email allowlist; webhook bypass. `0 sources`
+- [[wiki/concepts/scheduled-tasks|Scheduled Tasks]] — All automated jobs: home server crons, GCP Cloud Scheduler, background threads, app-level crons. `0 sources`
 - [[wiki/concepts/snowflake|Snowflake]] — OLAP warehouse used as OLTP (Clarity); immutable EVENT_LOG; internal stage for signatures. `0 sources`
 - [[wiki/concepts/stripe-payment-flows|Stripe Payment Flows]] — Terminal tap-to-pay (Clarity) vs CardField+server-side verification (SBCA). `0 sources`
 - [[wiki/concepts/websocket-realtime-events|WebSocket / Real-time Events]] — Socket.io rooms, event patterns (Whosup), PM2 sticky sessions. `0 sources`

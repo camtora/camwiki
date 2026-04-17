@@ -163,3 +163,10 @@ Grep patterns:
 - **Pages created:** none
 - **Pages updated:** wiki/infrastructure/status-dashboard (Wiki Q&A panel section, Plex banner change log), wiki/infrastructure/oauth2-proxy (jshor96 access, allowed users list), wiki/sources/infrastructure-repo (pages updated list), wiki/history/infrastructure (regenerated)
 - **Notes:** Wiki Q&A panel shipped as public (no auth) — diverges from original admin-only spec. ANTHROPIC_API_KEY in Secret Manager, not plain env var. Cloud Run memory 512Mi. jshor96@aol.com added to authenticated_emails.txt.
+
+## [2026-04-17] edit | Add scheduled-tasks concept page
+
+- **Source:** n/a (synthesized from existing wiki pages)
+- **Pages created:** wiki/concepts/scheduled-tasks
+- **Pages updated:** index.md
+- **Notes:** Consolidates all automated jobs into one page: 6 home server crons, 2 GCP Cloud Scheduler jobs, 3 in-process background threads, 4 app-level scheduled jobs, and frontend polling intervals.
