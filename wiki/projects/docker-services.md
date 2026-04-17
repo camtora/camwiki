@@ -57,8 +57,9 @@ All services share the `docker-services_default` network (declared external to a
 
 ## Key Decisions
 
-- [[wiki/projects/transmission]] runs inside Gluetun's network namespace — all torrent traffic exits through VPN
-- Three Gluetun regions run in parallel; GCP health checks auto-fail Transmission over to the next healthy region (see [[wiki/infrastructure/gluetun-vpn]])
+- [[wiki/decisions/docker-services/transmission-gluetun-network-mode]] — Transmission runs inside Gluetun's network namespace; strictest VPN kill-switch, no leak possible
+- [[wiki/decisions/docker-services/recyclarr-for-quality-profiles]] — Recyclarr syncs TRaSH Guides quality profiles into Radarr/Sonarr daily; config is version-controlled
+- Three Gluetun regions run in parallel; GCP health checks auto-fail Transmission over to the next healthy region — see [[wiki/infrastructure/gluetun-vpn]]
 - Bazarr and Tdarr kept stopped — excluded from update command to avoid unnecessary restarts
 - Network declared as external in docker-compose.yaml to avoid label mismatch (pre-dates Docker Compose label requirements)
 

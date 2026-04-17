@@ -109,6 +109,12 @@ Both post to Discord webhook. `app/api/contact/route.ts` (contact), `app/api/ple
 - Earlier: Added Who's Up as flagship app with access request flow
 - Earlier: Added 3D dancing avatar, status banner, service tiles redesign
 
+## Key Decisions
+
+- [[wiki/decisions/camerontora-ca/dedicated-oauth2-proxy]] — Own OAuth2 Proxy (port 4182) rather than shared infra proxy; site is public-by-default, SSO only unlocks private tiles
+- [[wiki/decisions/camerontora-ca/nextjs-app-router]] — Next.js App Router enables server-side header reading for auth and eliminates a separate backend for API routes
+- [[wiki/decisions/camerontora-ca/file-based-location-cache]] — Geolocated watch history stored as `locations.json` file, not a DB; shared via bind mount with Watchmap
+
 ## Open Questions
 
 _No entries yet._

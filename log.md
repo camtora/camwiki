@@ -81,3 +81,10 @@ Grep patterns:
 - **Pages created:** none
 - **Pages updated:** wiki/decisions/README.md, CLAUDE.md (nesting exception + filename convention)
 - **Notes:** All 5 infra ADRs moved to wiki/decisions/infra/ via git mv. Cross-references updated in wiki/infrastructure/status-dashboard, wiki/infrastructure/gcp-external-monitoring, and index.md. CLAUDE.md updated with targeted nesting exception for decisions/ and clarified ADR filename convention (no decision- prefix needed inside subdirs). Going forward, project-specific ADRs live in wiki/decisions/<project>/.
+
+## [2026-04-16] ingest | decision deep dive — camerontora.ca + docker-services
+
+- **Source:** `raw/repos/camerontora.ca` (README, PHASE2.md, CLAUDE.md), `raw/repos/docker-services` (README, docs/VPN-MIGRATION.md, docs/UPDATING-CONTAINERS.md, docker-compose.yaml)
+- **Pages created:** wiki/decisions/camerontora-ca/dedicated-oauth2-proxy, wiki/decisions/camerontora-ca/nextjs-app-router, wiki/decisions/camerontora-ca/file-based-location-cache, wiki/decisions/docker-services/transmission-gluetun-network-mode, wiki/decisions/docker-services/recyclarr-for-quality-profiles
+- **Pages updated:** wiki/projects/camerontora-ca (Key Decisions section), wiki/projects/docker-services (Key Decisions upgraded with ADR links), index.md (Decisions section now grouped by project)
+- **Notes:** camerontora.ca's dedicated OAuth2 Proxy is a deliberate exception to the unified SSO design — the public-by-default access model requires unauthenticated pass-through. docker-services docs were thin but VPN-MIGRATION.md captured the network_mode rationale well.

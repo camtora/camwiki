@@ -58,6 +58,16 @@ _No entries yet._
 
 Architecture decision records and significant choices.
 
+**camerontora.ca**
+- [[wiki/decisions/camerontora-ca/dedicated-oauth2-proxy|Dedicated OAuth2 Proxy]] — Own proxy (port 4182) vs shared infra; site is public-by-default. `1 source`
+- [[wiki/decisions/camerontora-ca/nextjs-app-router|Next.js App Router]] — SSR header reading for auth; API routes eliminate separate backend. `1 source`
+- [[wiki/decisions/camerontora-ca/file-based-location-cache|File-based Location Cache]] — locations.json vs DB; shared via bind mount with Watchmap. `1 source`
+
+**docker-services**
+- [[wiki/decisions/docker-services/transmission-gluetun-network-mode|Transmission in Gluetun Namespace]] — Strictest VPN kill-switch via network_mode; no leak possible. `1 source`
+- [[wiki/decisions/docker-services/recyclarr-for-quality-profiles|Recyclarr for Quality Profiles]] — TRaSH Guides sync into Radarr/Sonarr; config version-controlled. `1 source`
+
+**infra**
 - [[wiki/decisions/infra/decision-gcp-external-monitoring|GCP External Monitoring]] — Why build a custom GCP Cloud Run monitor instead of keeping Uptime Kuma or using a third-party service. `1 source`
 - [[wiki/decisions/infra/decision-status-dashboard-on-gcp|Status Dashboard on GCP]] — Why host the status dashboard on GCP Cloud Run rather than the home server. `1 source`
 - [[wiki/decisions/infra/decision-unified-oauth2-proxy|Unified OAuth2 Proxy]] — Why deploy a single shared OAuth2 Proxy for SSO across all protected services. `1 source`
