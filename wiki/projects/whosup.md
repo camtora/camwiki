@@ -187,6 +187,13 @@ Zero-downtime deploy: `git pull` → `npm run build` → `npx prisma migrate dep
 - 2026-01-31: Added Docker Compose for persistent backend deployment
 - Earlier: Banner photo upload, Apple Maps navigation, group chat, connections, mark-guest-as-paid
 
+## Key Decisions
+
+- [[wiki/decisions/whosup/location-privacy-three-layers|Three-layer Location Privacy]] — Area fuzzing at write time + coarse/exact columns + distance buckets; blocked users get 404.
+- [[wiki/decisions/whosup/host-approval-gate|Host Approval Gate]] — Join requests go PENDING→APPROVED/DENIED; chat room access and exact location bundled into approval.
+- [[wiki/decisions/whosup/ios-only-swiftui|iOS-only SwiftUI]] — MapKit (no API key), Sign in with Apple (App Store requirement for social apps), iOS 17+.
+- [[wiki/decisions/whosup/postgis-deferred|PostGIS Deferred]] — PostGIS installed but Haversine in app code for now; migration path clear when scale requires it.
+
 ## Open Questions
 
 _No entries yet._

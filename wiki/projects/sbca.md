@@ -161,6 +161,13 @@ Rule: all code editing and `npm install` on Ubuntu; all native tooling on Mac. F
 - Earlier: Phase 3 admin portal (Next.js 14) scaffolded and brought live
 - Earlier: Stripe server-side payment verification; station IDs verified
 
+## Key Decisions
+
+- [[wiki/decisions/sbca/expo-over-bare-react-native|Expo over Bare React Native]] — Managed workflow for Ubuntu-based dev loop; `expo prebuild` + Mac for native tooling.
+- [[wiki/decisions/sbca/stripe-server-side-verification|Stripe Server-side Payment Verification]] — Backend re-fetches PaymentIntent and checks metadata binding to prevent client tampering.
+- [[wiki/decisions/sbca/environment-canada-api|Environment Canada MSC GeoMet API]] — Free federal hydrometric API; stations 02EB018 (Beaumaris) and 02EB008 (Baysville).
+- [[wiki/decisions/sbca/expo-push-not-firebase|Expo Push over Firebase]] — Single Expo endpoint; no Firebase project or google-services.json needed.
+
 ## Open Questions
 
 - Phase 3 admin portal — scope and completion status unclear from commits

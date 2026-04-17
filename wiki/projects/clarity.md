@@ -70,6 +70,13 @@ Snowflake connection: `canada-central.azure` account, key-pair auth (`snowflake_
 - 2026-04-16: Gamification features (in progress)
 - Earlier: Recurring subscriptions, tap-to-pay, Twilio SMS, donor signatures
 
+## Key Decisions
+
+- [[wiki/decisions/clarity/android-only-platform|Android-only Platform]] — Stripe Tap to Pay on Android available first; enterprise tablets cheaper; NFC required feature.
+- [[wiki/decisions/clarity/stripe-tap-to-pay|Stripe Tap to Pay on Android]] — Device NFC chip as card reader; no external hardware; monthly donations create Stripe Subscription.
+- [[wiki/decisions/clarity/snowflake-as-database|Snowflake as Database]] — Compliance legacy; EVENT_LOG as immutable ledger; signatures in internal stage; time-travel audit queries.
+- [[wiki/decisions/clarity/twilio-sms-verification|Twilio SMS Verification]] — Mandatory YES/NO consent before payment; 2s polling loop; Twilio signature validation on every inbound webhook.
+
 ## Open Questions
 
 - Gamification scope unclear from commit messages alone

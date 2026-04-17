@@ -3,7 +3,7 @@
 Master catalog of all wiki pages. Updated by Claude on every ingest and whenever
 a new page is created. Read this first when answering queries.
 
-Last updated: 2026-04-16 (docs audit pass)
+Last updated: 2026-04-16 (SBCA + Whosup + Clarity decision deep dives)
 
 ---
 
@@ -74,6 +74,24 @@ Architecture decision records and significant choices.
 - [[wiki/decisions/haymaker/multi-user-registration-flow|Multi-user Registration Flow]] — OAuth2 allowlist + Discord approval; no self-serve registration. `1 source`
 - [[wiki/decisions/haymaker/pay-period-budget-model|Pay-period Budget Model]] — Pay periods not calendar months; matches actual income timing. `1 source`
 - [[wiki/decisions/haymaker/manual-data-priority|Manual Data Priority]] — Manual entry authoritative; auto-sync supplements analytics only. `1 source`
+
+**sbca**
+- [[wiki/decisions/sbca/expo-over-bare-react-native|Expo over Bare React Native]] — Managed workflow for Ubuntu-based dev loop; expo prebuild + Mac native tooling. `1 source`
+- [[wiki/decisions/sbca/stripe-server-side-verification|Stripe Server-side Payment Verification]] — Backend re-fetches PaymentIntent and validates metadata binding against member ID. `1 source`
+- [[wiki/decisions/sbca/environment-canada-api|Environment Canada MSC GeoMet API]] — Free hydrometric API; stations 02EB018 (Beaumaris) and 02EB008 (Baysville). `1 source`
+- [[wiki/decisions/sbca/expo-push-not-firebase|Expo Push over Firebase]] — Single Expo endpoint; no Firebase project or native SDK required. `1 source`
+
+**whosup**
+- [[wiki/decisions/whosup/location-privacy-three-layers|Three-layer Location Privacy]] — Area fuzzing at write time + coarse/exact split + distance buckets. `1 source`
+- [[wiki/decisions/whosup/host-approval-gate|Host Approval Gate]] — PENDING→APPROVED/DENIED; chat and exact location bundled into approval. `1 source`
+- [[wiki/decisions/whosup/ios-only-swiftui|iOS-only SwiftUI]] — MapKit, Sign in with Apple (App Store requirement for social apps), iOS 17+. `1 source`
+- [[wiki/decisions/whosup/postgis-deferred|PostGIS Deferred]] — PostGIS installed but Haversine at app level for now; clear migration path. `1 source`
+
+**clarity**
+- [[wiki/decisions/clarity/android-only-platform|Android-only Platform]] — Stripe Tap to Pay on Android first; enterprise tablets cheaper; NFC required. `1 source`
+- [[wiki/decisions/clarity/stripe-tap-to-pay|Stripe Tap to Pay on Android]] — Device NFC as card reader; monthly donations create Stripe Subscription. `1 source`
+- [[wiki/decisions/clarity/snowflake-as-database|Snowflake as Database]] — Compliance legacy; immutable EVENT_LOG; signatures in internal stage. `1 source`
+- [[wiki/decisions/clarity/twilio-sms-verification|Twilio SMS Verification]] — Mandatory YES/NO consent; Twilio signature validation; SMS events logged for audit. `1 source`
 
 **infra**
 - [[wiki/decisions/infra/decision-gcp-external-monitoring|GCP External Monitoring]] — Why build a custom GCP Cloud Run monitor instead of keeping Uptime Kuma or using a third-party service. `1 source`
