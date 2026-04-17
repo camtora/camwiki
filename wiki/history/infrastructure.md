@@ -13,6 +13,7 @@ _Generated from `git log` as of 2026-04-17. Re-generated on every repo ingest._
 
 | Hash | Date | Message |
 |------|------|---------|
+| `1e16fa0` | 2026-04-17 | Fix deploy.sh to derive --set-secrets from REQUIRED_SECRETS list |
 | `b109fc6` | 2026-04-17 | Add public Wiki Q&A panel to status dashboard |
 | `e59329c` | 2026-04-17 | Add Wiki Q&A feature spec for status dashboard |
 | `4e2a447` | 2026-04-16 | Clarify Plex banner: issue is with Plex the company, not our server |

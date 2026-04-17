@@ -177,3 +177,10 @@ Grep patterns:
 - **Pages created:** wiki/qa-log.md
 - **Pages updated:** CLAUDE.md (§7.2 Query Workflow — Step 3b added), index.md (Q&A Log section)
 - **Notes:** All future wiki queries will be appended to wiki/qa-log.md automatically as part of the Query Workflow.
+
+## [2026-04-17] ingest | infrastructure repo (deploy.sh refactor)
+
+- **Source:** `raw/repos/infrastructure`
+- **Pages created:** none
+- **Pages updated:** wiki/infrastructure/status-dashboard (deploy.sh change log entry), wiki/history/infrastructure (regenerated)
+- **Notes:** REQUIRED_SECRETS now single source of truth in deploy.sh; --set-secrets derived automatically to prevent drift.

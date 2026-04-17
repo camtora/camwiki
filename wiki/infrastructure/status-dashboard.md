@@ -169,6 +169,7 @@ Frontend component: `PlexStatusBanner.jsx`.
 
 ## Change Log
 
+- 2026-04-17: deploy.sh refactored — `REQUIRED_SECRETS` is now single source of truth; `--set-secrets` flag derived automatically, eliminating drift
 - 2026-04-17: Wiki Q&A panel added (public, GCS-backed, markdown rendering, Secret Manager for API key)
 - 2026-04-16: Plex platform status banner added; jshor96@aol.com granted OAuth access
 
