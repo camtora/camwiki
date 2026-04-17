@@ -63,7 +63,7 @@ All three VPN locations (Toronto/Montreal/Vancouver) are monitored, but **alerts
 
 ## Additional Capabilities
 
-**DNS Failover** — when home internet is detected as down, triggers a GoDaddy API call to flip `@`, `plex`, `seerr` A records to GCP static IP (`216.239.32.21`). Reverts automatically on recovery. See [[wiki/concepts/dns-failover]] and [[wiki/decisions/decision-dns-failover-approach]].
+**DNS Failover** — when home internet is detected as down, triggers a GoDaddy API call to flip `@`, `plex`, `seerr` A records to GCP static IP (`216.239.32.21`). Reverts automatically on recovery. See [[wiki/concepts/dns-failover]] and [[wiki/decisions/infra/decision-dns-failover-approach]].
 
 **VPN Auto-Failover** — tracks consecutive unhealthy checks on the active VPN. After 6 checks (~30 min), calls `health.camerontora.ca/api/health/vpn/switch` to switch to the healthiest available PIA server (selected by download speed). Discord notification on start, completion, or failure. See [[wiki/infrastructure/gluetun-vpn]].
 
@@ -98,7 +98,7 @@ Cloud Scheduler (*/5 min)
 - [[wiki/infrastructure/status-dashboard]]
 - [[wiki/infrastructure/gluetun-vpn]]
 - [[wiki/concepts/dns-failover]]
-- [[wiki/decisions/decision-gcp-external-monitoring]]
+- [[wiki/decisions/infra/decision-gcp-external-monitoring]]
 
 ## Sources
 

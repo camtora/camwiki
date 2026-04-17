@@ -49,6 +49,9 @@ camwiki/
 **Hard rules:**
 - Never create, modify, or delete anything under `raw/`.
 - Never nest wiki pages more than one level deep inside a category directory.
+  **Exception:** `wiki/decisions/` may contain one level of subdirectories named
+  after the project or domain (e.g., `infra/`, `haymaker/`). ADR files live
+  directly inside those subdirs — no further nesting.
 - If a page genuinely spans multiple categories, place it in `concepts/` and
   cross-reference it from the relevant category pages.
 
@@ -89,8 +92,11 @@ history, and explore the top-level directory structure to inform the project pag
 ## 4. Naming Conventions
 
 **Filenames:** kebab-case, lowercase, no spaces, `.md` extension.
-- Good: `nginx-reverse-proxy.md`, `home-nas-setup.md`, `decision-use-podman.md`
+- Good: `nginx-reverse-proxy.md`, `home-nas-setup.md`, `fastapi-over-nextjs.md`
 - Bad: `Nginx Reverse Proxy.md`, `homeNasSetup.md`
+- ADR files in `wiki/decisions/<subdir>/` do **not** need a `decision-` prefix —
+  the subdir provides context. Exception: the existing infra ADRs keep their
+  `decision-` prefix since they predate this convention.
 
 **Wiki-internal links:** Use Obsidian wiki-link format with the full path from
 the repo root, no extension.

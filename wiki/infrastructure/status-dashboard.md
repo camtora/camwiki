@@ -131,7 +131,7 @@ Cloud Scheduler (*/5 min)
 
 ## Key Design Decisions
 
-- Hosted on GCP so it's always reachable during home server or internet outages — see [[wiki/decisions/decision-status-dashboard-on-gcp]]
+- Hosted on GCP so it's always reachable during home server or internet outages — see [[wiki/decisions/infra/decision-status-dashboard-on-gcp]]
 - `status.camerontora.ca` is a CNAME (not an A record) — SSL managed by Google, not Let's Encrypt; must not be added to the `camerontora-services` cert
 - Doubles as the DNS failover landing page: when `@`, `plex`, `seerr` flip to GCP IPs, visitors see this dashboard — see [[wiki/concepts/dns-failover]]
 
@@ -141,7 +141,7 @@ Cloud Scheduler (*/5 min)
 - [[wiki/infrastructure/health-api]]
 - [[wiki/infrastructure/storage-raid]]
 - [[wiki/concepts/dns-failover]]
-- [[wiki/decisions/decision-status-dashboard-on-gcp]]
+- [[wiki/decisions/infra/decision-status-dashboard-on-gcp]]
 
 ## Sources
 
