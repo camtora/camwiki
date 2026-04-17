@@ -109,3 +109,9 @@ Grep patterns:
 - **Pages created:** none
 - **Pages updated:** wiki/infrastructure/status-dashboard.md (services 15→14: Ombi removed, SBA API + Who's Up API moved to API category; Plex Platform Banner section added), wiki/infrastructure/nginx-reverse-proxy.md (overseerr→seerr 301 redirect noted)
 - **Notes:** Ombi decommissioned and removed from config.py monitoring. SBA API added as API-category service. Plex Platform Banner polls status.plex.tv/api/v2/summary.json in parallel with health checks — amber/red banner surfaces upstream incidents so users know login/playback issues aren't the home server. jshor96@aol.com granted OAuth access (authenticated_emails.txt). dns-ssl.md already current (seerr added, ombi kept live for migration page).
+
+## [2026-04-17] edit | Obsidian Sync setup documented
+
+- **Pages created:** none
+- **Pages updated:** wiki/projects/camwiki.md (sync method updated from Obsidian Git to Obsidian Sync; change log entry added)
+- **Notes:** Obsidian installed on Ubuntu server. Obsidian Sync now transports vault to Mac and iPhone. Obsidian Git plugin on Mac decommissioned.

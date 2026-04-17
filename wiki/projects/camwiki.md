@@ -34,7 +34,8 @@ CLAUDE.md      ← operating contract (auto-read by Claude Code each session)
 
 - Git repo: `git@github.com:camtora/camwiki.git`
 - Hosted on the home server at `/home/camerontora/camwiki`
-- Browsed via Obsidian on Mac, synced via Obsidian Git plugin (auto-pull on vault open)
+- Obsidian installed on the server; vault synced to Mac and iPhone via **Obsidian Sync**
+- Mac previously used Obsidian Git plugin — decommissioned in favour of Obsidian Sync
 - Claude Code sessions run on the server via SSH
 
 ## Linked Repos
@@ -80,6 +81,7 @@ Every wiki page has YAML frontmatter (`title`, `type`, `tags`, `created`, `updat
 
 ## Change Log
 
+- 2026-04-17: Obsidian Sync set up — server → Mac + iPhone; replaced Obsidian Git plugin on Mac
 - 2026-04-16: Initial scaffold, 11 repo ingests, infrastructure ADR retro pass, docs/ folder ingest (13 docs)
 
 ## Open Questions
