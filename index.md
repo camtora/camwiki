@@ -3,7 +3,7 @@
 Master catalog of all wiki pages. Updated by Claude on every ingest and whenever
 a new page is created. Read this first when answering queries.
 
-Last updated: 2026-04-16 (SBCA + Whosup + Clarity decision deep dives)
+Last updated: 2026-04-17 (desktop docs ingest + Known Issues pass)
 
 ---
 
@@ -31,9 +31,9 @@ Home-server projects — software stacks, services, personal tools.
 
 Hosts, networks, storage, operating systems, container runtimes.
 
-- [[wiki/infrastructure/home-server|Home Server]] — Primary Ubuntu home server, port forwarding, UFW, RealVNC, secrets. `1 source`
+- [[wiki/infrastructure/home-server|Home Server]] — Primary Ubuntu home server (CAMNAS2, Ubuntu 24.04.3 LTS), port forwarding, UFW, RealVNC, Docker mount dependency. `2 sources`
 - [[wiki/infrastructure/nginx-reverse-proxy|Nginx Reverse Proxy]] — SSL termination and subdomain routing for all *.camerontora.ca services. `1 source`
-- [[wiki/infrastructure/oauth2-proxy|OAuth2 Proxy]] — Two instances: shared infrastructure SSO + camerontora.ca-specific auth; per-service auth table. `2 sources`
+- [[wiki/infrastructure/oauth2-proxy|OAuth2 Proxy]] — Two instances: shared infrastructure SSO + camerontora.ca-specific auth; nginx patterns, 6-step checklist, troubleshooting. `3 sources`
 - [[wiki/infrastructure/dns-ssl|DNS and SSL]] — GoDaddy DDNS (cron/10min) and Let's Encrypt shared cert (19 subdomains). `1 source`
 - [[wiki/infrastructure/docker-networks|Docker Networks]] — Docker Compose network topology and UFW subnet rules. `1 source`
 - [[wiki/infrastructure/gcp-external-monitoring|GCP External Monitoring]] — Cloud Run monitor checks home server every 5 min, Discord alerts, DNS failover, VPN failover; full thresholds. `2 sources`
@@ -41,7 +41,7 @@ Hosts, networks, storage, operating systems, container runtimes.
 - [[wiki/infrastructure/health-api|Health API]] — Flask container exposing CPU/RAM/disk/Plex/SMART metrics; all endpoints including admin. `2 sources`
 - [[wiki/infrastructure/macos-remote-mount|macOS Remote Mount]] — SSHFS mount of home server storage on MacBook (home + remote). `1 source`
 - [[wiki/infrastructure/status-dashboard|Status Dashboard]] — GCP-hosted dashboard; 15 services monitored; admin panel (reboot, VPN, restart); Firestore history. `2 sources`
-- [[wiki/infrastructure/storage-raid|Storage and RAID]] — HOMENAS (8-drive software RAID5) and CAMRAID (hardware RAID5) with SMART monitoring. `1 source`
+- [[wiki/infrastructure/storage-raid|Storage and RAID]] — HOMENAS (10-drive software RAID5, sde has 16 bad sectors) and CAMRAID (hardware RAID5); per-drive SMART health. `2 sources`
 
 ---
 
@@ -174,3 +174,6 @@ One entry per raw source ingested.
 - [[wiki/sources/watchmap-repo|watchmap repo]] — Plex stream map; Node.js + Socket.IO + tvOS app. `1 source`
 - [[wiki/sources/whosup-repo|whosup repo]] — Social activity app; Node.js + PostGIS + SwiftUI. `1 source`
 - [[wiki/sources/docker-services-repo|docker-services repo]] — Home media stack: Plex, *arr suite, Transmission, multi-region Gluetun VPN. `1 source`
+- [[wiki/sources/desktop-hard-drive-arrangement|Hard Drive Arrangement]] — Per-drive UUID and SMART health snapshot; sde has 16 bad sectors; CAMNAS2 drive labels; open maintenance TODOs. `1 source`
+- [[wiki/sources/desktop-camnas2-ops-reference|CAMNAS2 Ops Reference]] — Server hostname/OS, Docker systemd mount dependency, Plex backup/restore runbook (2025-12-29). `1 source`
+- [[wiki/sources/desktop-sso-guide|SSO Guide]] — Nginx config patterns for protected/public/hybrid services; 6-step checklist; troubleshooting. `1 source`

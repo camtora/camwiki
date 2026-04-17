@@ -3,8 +3,8 @@ title: "Home Server"
 type: infrastructure
 tags: [infra, server, host]
 created: 2026-04-16
-updated: 2026-04-16
-source_count: 1
+updated: 2026-04-17
+source_count: 2
 ---
 
 # Home Server
@@ -15,8 +15,10 @@ The primary home server running all self-hosted services at `camerontora.ca`.
 
 | Property | Value |
 |----------|-------|
+| Hostname | `CAMNAS2` |
 | Internal IP | `192.168.2.34` |
-| OS | Ubuntu |
+| OS | Ubuntu 24.04.3 LTS |
+| Primary user | `camerontora` (PUID 1000 / PGID 1000) |
 | Remote access | RealVNC (cloud), SSH |
 | SSH | Keys only, root disabled, external port 2222 → internal 22 |
 
@@ -69,6 +71,20 @@ All secrets in `.env` files with `chmod 600`, never committed to git.
 | `haymaker/.env` | Postgres password, Minio password |
 | `camerontora.ca/.env` | Discord webhook, Tautulli API key |
 
+## Docker Startup Mount Dependency
+
+NAS mounts (`/HOMENAS`, `/HOMENAS2`, `/CAMRAID`) must exist before Docker starts. Enforced via a systemd drop-in:
+
+```bash
+sudo mkdir -p /etc/systemd/system/docker.service.d
+echo -e "[Unit]\nRequiresMountsFor=/HOMENAS /HOMENAS2 /CAMRAID" | sudo tee /etc/systemd/system/docker.service.d/10-requires-mounts.conf
+sudo systemctl daemon-reload
+```
+
+Verify: `systemctl cat docker.service` and `mount | egrep "HOMENAS|HOMENAS2|CAMRAID"`.
+
+If Docker starts before mounts are ready, all containers that bind-mount media paths will fail to start.
+
 ## Connected Projects
 
 - [[wiki/infrastructure/nginx-reverse-proxy]]
@@ -79,3 +95,4 @@ All secrets in `.env` files with `chmod 600`, never committed to git.
 ## Sources
 
 - [[wiki/sources/infrastructure-repo]] — infrastructure repo, full topology and security config
+- [[wiki/sources/desktop-camnas2-ops-reference]] — hostname, OS version, Docker systemd mount dependency (2025-12-29 snapshot)

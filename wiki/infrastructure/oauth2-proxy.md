@@ -3,8 +3,8 @@ title: "OAuth2 Proxy"
 type: infrastructure
 tags: [infra, auth, sso, google, oauth]
 created: 2026-04-16
-updated: 2026-04-16
-source_count: 2
+updated: 2026-04-17
+source_count: 3
 ---
 
 # OAuth2 Proxy
@@ -57,11 +57,77 @@ Authentication (who can log in) is controlled by `authenticated_emails.txt`. Aut
 
 Admin email mapping is in `nginx/conf.d/00-admin-map.conf` (`map $auth_email $is_admin {...}`). Adding an admin means adding a line to that map. Non-admin authenticated users get a custom 403 page (dark glassmorphism design matching the dashboard) rather than a raw error.
 
+## The Cookie Domain Trick
+
+OAuth2 Proxy sets cookies per-subdomain by default, which breaks SSO across subdomains. The fix is in every nginx service config:
+
+```nginx
+proxy_cookie_domain $host .camerontora.ca;
+```
+
+This rewrites `haymaker.camerontora.ca` → `.camerontora.ca`, making the `_oauth2_proxy` cookie valid across all subdomains. **This line must appear in the `/oauth2/` location block — missing it is the most common SSO bug.**
+
 ## Adding a New Protected Service
 
-1. Add the nginx config routing through oauth2-proxy (see `docs/SSO-GUIDE.md`)
-2. Add the callback URL to the Google OAuth Console
-3. No changes needed to oauth2-proxy config itself — it's service-agnostic
+**6-step checklist:**
+1. Add DNS A record pointing to the server IP
+2. Add subdomain to SSL cert if not using wildcard: `sudo certbot certonly --expand -d newservice.camerontora.ca`
+3. Add callback URL to Google OAuth Console: `https://newservice.camerontora.ca/oauth2/callback` — wait 1–5 min for propagation
+4. Create nginx config at `infrastructure/nginx/conf.d/XX-newservice.conf` (see pattern below)
+5. Test and reload: `docker exec nginx-proxy nginx -t && docker exec nginx-proxy nginx -s reload`
+6. Test SSO: log in to any existing service, then navigate to new service — should skip auth prompt
+
+### Nginx Config Patterns
+
+**Protected (auth required):**
+```nginx
+server {
+    listen 443 ssl http2;
+    server_name newservice.camerontora.ca;
+    ssl_certificate /etc/letsencrypt/live/camerontora-services/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/camerontora-services/privkey.pem;
+
+    location /oauth2/ {
+        proxy_pass http://oauth2-proxy;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cookie_domain $host .camerontora.ca;   # ← SSO key
+    }
+    location = /oauth2/auth {
+        internal;
+        proxy_pass http://oauth2-proxy/oauth2/auth;
+        proxy_set_header Content-Length "";
+        proxy_pass_request_body off;
+    }
+    location @error401 {
+        return 302 https://$host/oauth2/start?rd=$scheme://$host$request_uri;
+    }
+    location / {
+        auth_request /oauth2/auth;
+        auth_request_set $auth_email $upstream_http_x_auth_request_email;
+        error_page 401 = @error401;
+        proxy_pass http://host.docker.internal:YOUR_PORT;
+        proxy_set_header X-Forwarded-Email $auth_email;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+```
+
+**Public (no auth):** Omit all oauth2 blocks; proxy directly to `host.docker.internal:PORT`.
+
+**Hybrid (public with optional auth passthrough):** Use `error_page 401 = @public;` instead of `@error401`, and add a `location @public` block that proxies without `auth_request`. The `X-Forwarded-Email` header is set if logged in, empty if not. This is how camerontora.ca itself works.
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---------|-----|
+| Prompted to log in on each subdomain | Check `proxy_cookie_domain $host .camerontora.ca;` is in `/oauth2/` block; clear `_oauth2_proxy` cookies |
+| 401 Unauthorized | Check email is in `authenticated_emails.txt`; check oauth2-proxy logs |
+| 502 Bad Gateway | Check oauth2-proxy container is running; check backend port is correct |
+| `redirect_uri_mismatch` | Add `https://subdomain.camerontora.ca/oauth2/callback` to Google OAuth Console; wait 1–5 min |
+| CSRF Token Invalid | Ensure `proxy_cookie_domain` is set in `/oauth2/` block; clear cookies |
 
 ## Connected Projects
 
@@ -72,3 +138,4 @@ Admin email mapping is in `nginx/conf.d/00-admin-map.conf` (`map $auth_email $is
 
 - [[wiki/sources/infrastructure-repo]] — shared SSO architecture and configuration
 - [[wiki/sources/camerontora-ca-repo]] — camerontora.ca-specific OAuth2 instance
+- [[wiki/sources/desktop-sso-guide]] — nginx config patterns, 6-step checklist, troubleshooting guide

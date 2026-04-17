@@ -135,3 +135,10 @@ Grep patterns:
 - **Pages created:** none
 - **Pages updated:** wiki/projects/camerontora-ca, wiki/projects/clarity, wiki/projects/docker-services, wiki/projects/donormap, wiki/projects/haymaker, wiki/projects/rotosync, wiki/projects/sbca, wiki/projects/watchmap, wiki/projects/whosup — each received a new `## Known Issues` section
 - **Notes:** Issues grouped by severity (Critical / High / Medium / Low). Highlights: Whosup has 3 critical security/correctness issues (no token signature verification, Socket.io PM2 cluster incompatibility, capacity race condition). Clarity has Twilio signature validation disabled and a duplicate endpoint crash risk. Haymaker has a duplicate `fat_g` column that will break the next Alembic migration. Rotosync Google Meet transcript fetching is not implemented. Docker Services Gluetun memory leak and Transmission orphaning are mitigated but require operational care.
+
+## [2026-04-17] ingest | Desktop docs — hard_drive_arrangement, CAMNAS2_Server_Operations_Reference, SSO-GUIDE
+
+- **Source:** `~/Desktop/hard_drive_arrangement.txt`, `~/Desktop/CAMNAS2_Server_Operations_Reference.md`, `~/Desktop/SSO-GUIDE.md`
+- **Pages created:** wiki/sources/desktop-hard-drive-arrangement, wiki/sources/desktop-camnas2-ops-reference, wiki/sources/desktop-sso-guide
+- **Pages updated:** wiki/infrastructure/storage-raid (per-drive SMART health, CAMNAS2 drive table, open TODOs), wiki/infrastructure/home-server (hostname CAMNAS2, Ubuntu 24.04.3 LTS, Docker systemd mount dependency), wiki/projects/plex-media-server (backup/restore runbook), wiki/infrastructure/oauth2-proxy (cookie domain trick, 3 nginx patterns, 6-step checklist, troubleshooting table), index.md
+- **Notes:** sde has 16 bad sectors — priority replacement candidate in HOMENAS RAID5. CAMNAS2 ops reference is dated 2025-12-29 and partially outdated (references Ombi/Overseerr). SSO guide surfaces the proxy_cookie_domain trick as the key mechanism and common failure point. Ombi credential in hard_drive_arrangement.txt deliberately omitted from wiki.
