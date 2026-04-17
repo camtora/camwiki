@@ -170,3 +170,10 @@ Grep patterns:
 - **Pages created:** wiki/concepts/scheduled-tasks
 - **Pages updated:** index.md
 - **Notes:** Consolidates all automated jobs into one page: 6 home server crons, 2 GCP Cloud Scheduler jobs, 3 in-process background threads, 4 app-level scheduled jobs, and frontend polling intervals.
+
+## [2026-04-17] edit | Add Q&A log
+
+- **Source:** n/a
+- **Pages created:** wiki/qa-log.md
+- **Pages updated:** CLAUDE.md (§7.2 Query Workflow — Step 3b added), index.md (Q&A Log section)
+- **Notes:** All future wiki queries will be appended to wiki/qa-log.md automatically as part of the Query Workflow.

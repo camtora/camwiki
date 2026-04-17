@@ -168,6 +168,12 @@ Commit logs per project. Generated from `git log`; re-generated on each repo ing
 
 ---
 
+## Q&A Log
+
+- [[wiki/qa-log|Q&A Log]] — Append-only record of questions asked to the wiki during Claude Code sessions.
+
+---
+
 ## Sources
 
 One entry per raw source ingested.

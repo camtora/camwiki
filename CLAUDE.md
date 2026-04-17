@@ -494,6 +494,19 @@ if needed.
 **Step 3 — Synthesize.** Compose an answer grounded in wiki content with
 wiki-link citations. Note if the wiki lacks sufficient information.
 
+**Step 3b — Append to qa-log.md.** After every answered query, append an entry
+to `wiki/qa-log.md`:
+```
+## YYYY-MM-DD — <short question title>
+
+**Q:** <full question as asked>
+
+**A:** <full answer given>
+
+_New page created: [[wiki/...]]_ ← only include if a page was filed
+```
+Do not edit past entries. Always append at the bottom.
+
 **Step 4 — Offer to file.** If the answer involves non-trivial synthesis, offer
 to create a new page from it. If the user agrees, create the page, update
 index.md, and append to log.md with type `query`.
