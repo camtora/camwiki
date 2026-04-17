@@ -60,7 +60,7 @@ Long-running processes managed by systemd (not cron-based).
 
 | Service | Unit | Port | Notes |
 |---------|------|------|-------|
-| Quartz Wiki | `quartz-wiki` | 3004 | Serves `wiki.camerontora.ca`; watches content for changes and rebuilds automatically |
+| Quartz Wiki | `quartz-wiki` | 3005 | Serves `wiki.camerontora.ca`; watches content for changes and rebuilds automatically |
 
 ## Frontend Polling
 

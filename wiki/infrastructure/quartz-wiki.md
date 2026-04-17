@@ -16,7 +16,7 @@ Quartz v4 static site generator serving the camwiki knowledge base at `wiki.came
 | Property | Value |
 |----------|-------|
 | URL | `https://wiki.camerontora.ca` |
-| Port | 3004 |
+| Port | 3005 |
 | Install path | `/home/camerontora/quartz-wiki` |
 | Content | Symlink: `quartz-wiki/content` → `/home/camerontora/camwiki` |
 | Node version | 22 (via nvm: `/home/camerontora/.nvm/versions/node/v22.22.2`) |

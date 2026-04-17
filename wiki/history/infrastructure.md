@@ -13,6 +13,7 @@ _Generated from `git log` as of 2026-04-17. Re-generated on every repo ingest._
 
 | Hash | Date | Message |
 |------|------|---------|
+| `0814f0a` | 2026-04-17 | Fix wiki nginx port: 3004 → 3005 (3004 is sbca-admin) |
 | `3b36ef5` | 2026-04-17 | Add OAuth2 protection to wiki.camerontora.ca |
 | `42564db` | 2026-04-17 | Update DNS-AND-SSL docs for wiki.camerontora.ca |
 | `0526f66` | 2026-04-17 | Add wiki.camerontora.ca subdomain routing |
