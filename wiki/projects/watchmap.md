@@ -96,6 +96,14 @@ Geolocation results cached for 24 hours (ip-api.com TTL).
 - [[wiki/projects/plex-media-server]] — Tautulli API for stream data and Plex for library/poster images
 - [[wiki/projects/camerontora-ca]] — writes `locations.json` consumed by the public map
 
+## Key Decisions
+
+- [[wiki/decisions/watchmap/tvos-native-swiftui|tvOS Native SwiftUI]] — WebKit unavailable on tvOS; native MapKit app with REST polling instead.
+- [[wiki/decisions/watchmap/nodejs-socket-io-backend|Node.js + Socket.IO Backend]] — Real-time push to browsers; minimal container; I/O-heavy workload fits Node event loop.
+- [[wiki/decisions/watchmap/single-file-frontend|Single-file Frontend]] — No build step; volume-mounted for instant reload; zero frontend dependencies.
+- [[wiki/decisions/watchmap/ip-api-geolocation|ip-api.com Geolocation]] — Free, no API key; 24-hour TTL cache; LAN IPs mapped to configurable home location.
+- [[wiki/decisions/watchmap/proc-mount-system-stats|Host /proc Mount for System Stats]] — Read-only /proc mount gives accurate real-time CPU/RAM/load; safer than Docker socket.
+
 ## Sources
 
 - [[wiki/sources/watchmap-repo]] — full architecture, WebSocket events, tvOS app documentation

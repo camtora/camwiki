@@ -210,6 +210,15 @@ Fire TV stays connected permanently; pairing code only needed on first install o
 - 2026-03-28: Global map combining US + CA data; Fire TV app icons
 - Earlier: FSA choropleth, admin charity colors, History tab, TVGlobalDisplay redesign
 
+## Key Decisions
+
+- [[wiki/decisions/donormap/firestore-cache-intermediary|Firestore Cache Intermediary]] — 15-min scheduled Snowflake refresh; browser subscribes via real-time listeners.
+- [[wiki/decisions/donormap/four-layer-domain-enforcement|Four-layer Domain Enforcement]] — OAuth hd param + frontend + Cloud Function + Firestore rules; defense-in-depth for donor data.
+- [[wiki/decisions/donormap/fixed-bounds-map|Fixed-bounds Map]] — No zoom or pan; broadcast display use case; consistent view across office TVs.
+- [[wiki/decisions/donormap/estimated-coa-revenue|Estimated COA Revenue]] — Fixed rates per product type; labelled EST. REVENUE; actual revenue unknown at acquisition time.
+- [[wiki/decisions/donormap/twelve-noon-time-window|12pm–12pm Time Window]] — Midday-to-midday window captures full business day; eliminates timezone edge cases.
+- [[wiki/decisions/donormap/firetv-pairing-code-auth|Fire TV Pairing Code Auth]] — 6-digit code + custom Firebase token; OAuth impossible on sideloaded APK.
+
 ## Open Questions
 
 _No entries yet._

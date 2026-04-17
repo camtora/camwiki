@@ -72,12 +72,11 @@ Every wiki page has YAML frontmatter (`title`, `type`, `tags`, `created`, `updat
 
 ## Key Decisions
 
-- `CLAUDE.md` at repo root — auto-read by Claude Code, self-activating operating contract
-- `raw/` is strictly immutable — Claude never writes source documents
-- Full-path wiki-links only — prevents collisions as the wiki grows
-- `wiki/sources/` is inside `wiki/` not `raw/` — source summaries are LLM artifacts, not raw docs
-- One level of nesting max under `wiki/` — cross-cutting topics go in `concepts/`
-- Append-only `log.md` — complete audit trail of every ingest, query, and edit operation
+- [[wiki/decisions/camwiki/pre-synthesis-over-rag|Pre-synthesis over RAG]] — Pages written once, maintained over time; compounding value; consistent answers.
+- [[wiki/decisions/camwiki/claude-md-operating-contract|CLAUDE.md as Operating Contract]] — Auto-read by Claude Code; all rules in one self-activating file.
+- [[wiki/decisions/camwiki/raw-immutable|raw/ is Immutable]] — Source documents never modified; enables auditability and clean re-ingest.
+- [[wiki/decisions/camwiki/full-path-wikilinks|Full-path Wiki-links]] — Collision-safe and refactoring-safe as wiki scales to org-level.
+- [[wiki/decisions/camwiki/append-only-log|Append-only log.md]] — Immutable audit trail of every operation; grep-searchable.
 
 ## Change Log
 

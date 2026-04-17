@@ -75,6 +75,36 @@ Architecture decision records and significant choices.
 - [[wiki/decisions/haymaker/pay-period-budget-model|Pay-period Budget Model]] — Pay periods not calendar months; matches actual income timing. `1 source`
 - [[wiki/decisions/haymaker/manual-data-priority|Manual Data Priority]] — Manual entry authoritative; auto-sync supplements analytics only. `1 source`
 
+**camwiki**
+- [[wiki/decisions/camwiki/pre-synthesis-over-rag|Pre-synthesis over RAG]] — Wiki pages maintained over time; compounding value vs. re-deriving at query time. `0 sources`
+- [[wiki/decisions/camwiki/claude-md-operating-contract|CLAUDE.md as Operating Contract]] — Auto-read by Claude Code; all rules in one self-activating file. `0 sources`
+- [[wiki/decisions/camwiki/raw-immutable|raw/ is Immutable]] — Source documents never modified; enables auditability and clean re-ingest. `0 sources`
+- [[wiki/decisions/camwiki/full-path-wikilinks|Full-path Wiki-links]] — Collision-safe and refactoring-safe as wiki scales to org-level. `0 sources`
+- [[wiki/decisions/camwiki/append-only-log|Append-only log.md]] — Immutable audit trail of every operation; grep-searchable. `0 sources`
+
+**donormap**
+- [[wiki/decisions/donormap/firestore-cache-intermediary|Firestore Cache Intermediary]] — 15-min Snowflake refresh; browser subscribes via real-time listeners. `1 source`
+- [[wiki/decisions/donormap/four-layer-domain-enforcement|Four-layer Domain Enforcement]] — OAuth + frontend + Cloud Function + Firestore rules; defense-in-depth. `1 source`
+- [[wiki/decisions/donormap/fixed-bounds-map|Fixed-bounds Map]] — No zoom or pan; broadcast display; consistent view across TVs. `1 source`
+- [[wiki/decisions/donormap/estimated-coa-revenue|Estimated COA Revenue]] — Fixed rates per product type; labelled as estimate. `1 source`
+- [[wiki/decisions/donormap/twelve-noon-time-window|12pm–12pm Time Window]] — Midday-to-midday captures full business day; eliminates timezone edge cases. `1 source`
+- [[wiki/decisions/donormap/firetv-pairing-code-auth|Fire TV Pairing Code Auth]] — 6-digit code + custom Firebase token; OAuth impossible on sideloaded APK. `1 source`
+
+**rotosync**
+- [[wiki/decisions/rotosync/firebase-unified-backend|Firebase as Unified Backend]] — Firestore + Cloud Functions + Auth + Hosting; real-time multi-user platform. `1 source`
+- [[wiki/decisions/rotosync/daily-co-webrtc|Daily.co for WebRTC and Transcription]] — Built-in live transcription + active speaker events. `1 source`
+- [[wiki/decisions/rotosync/google-calendar-addon|Google Calendar Add-on]] — Native conferencing provider; meeting metadata from calendar. `1 source`
+- [[wiki/decisions/rotosync/multi-meeting-type-architecture|Multi-meeting-type Architecture]] — Title-pattern detection; default-to-1:1; per-type carryover visibility. `1 source`
+- [[wiki/decisions/rotosync/gemini-over-claude|Gemini over Claude for AI Extraction]] — Vertex AI ADC; no API key secret needed. `1 source`
+- [[wiki/decisions/rotosync/email-scoped-carryover|Email-scoped Carryover Items]] — Email matching with alias normalisation; 1:1 isolation. `1 source`
+
+**watchmap**
+- [[wiki/decisions/watchmap/tvos-native-swiftui|tvOS Native SwiftUI]] — WebKit unavailable on tvOS; native MapKit with REST polling. `1 source`
+- [[wiki/decisions/watchmap/nodejs-socket-io-backend|Node.js + Socket.IO Backend]] — Real-time push to browsers; minimal Alpine container. `1 source`
+- [[wiki/decisions/watchmap/single-file-frontend|Single-file Frontend]] — No build step; volume-mounted; zero frontend dependencies. `1 source`
+- [[wiki/decisions/watchmap/ip-api-geolocation|ip-api.com Geolocation]] — Free, no API key; 24-hour cache; LAN IP override. `1 source`
+- [[wiki/decisions/watchmap/proc-mount-system-stats|Host /proc Mount for System Stats]] — Read-only proc mount; accurate real-time CPU/RAM. `1 source`
+
 **sbca**
 - [[wiki/decisions/sbca/expo-over-bare-react-native|Expo over Bare React Native]] — Managed workflow for Ubuntu-based dev loop; expo prebuild + Mac native tooling. `1 source`
 - [[wiki/decisions/sbca/stripe-server-side-verification|Stripe Server-side Payment Verification]] — Backend re-fetches PaymentIntent and validates metadata binding against member ID. `1 source`

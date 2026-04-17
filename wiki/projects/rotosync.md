@@ -112,6 +112,15 @@ Cloud Functions: `getMondayTickets`, `getMondayUsers`, `assignMondayTicket`, `ge
 - 2026-01-16: Microphone/camera device selection
 - 2026-01-14: Client-side Firebase callable timeouts
 
+## Key Decisions
+
+- [[wiki/decisions/rotosync/firebase-unified-backend|Firebase as Unified Backend]] — Firestore real-time listeners, Cloud Functions, Auth, Hosting; beats SQL for multi-user video-enabled product.
+- [[wiki/decisions/rotosync/daily-co-webrtc|Daily.co for WebRTC and Transcription]] — Built-in live transcription + active speaker events; audio-only default for standups.
+- [[wiki/decisions/rotosync/google-calendar-addon|Google Calendar Add-on]] — Native conferencing provider; attendee roster and meeting metadata flow from calendar automatically.
+- [[wiki/decisions/rotosync/multi-meeting-type-architecture|Multi-meeting-type Architecture]] — Title-pattern detection (standup/project/1:1); default-to-1:1; per-type carryover visibility matrix.
+- [[wiki/decisions/rotosync/gemini-over-claude|Gemini over Claude for AI Extraction]] — Vertex AI ADC eliminates API key secret; same GCP project.
+- [[wiki/decisions/rotosync/email-scoped-carryover|Email-scoped Carryover Items]] — Email-based matching with alias normalisation; 1:1 isolation via oneOnOneAttendees field.
+
 ## Open Questions
 
 _No entries yet._
