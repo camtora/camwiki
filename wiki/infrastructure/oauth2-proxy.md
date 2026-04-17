@@ -55,6 +55,7 @@ Authentication (who can log in) is controlled by `authenticated_emails.txt`. Aut
 | Service | Access Level |
 |---------|-------------|
 | Haymaker | All authenticated users |
+| Wiki (wiki.camerontora.ca) | All authenticated users |
 | Radarr, Sonarr, Jackett, Tautulli, Transmission, Watchmap, Netdata | Admin only |
 | Health API `/api/admin/*` | Admin only |
 | Plex, Seerr, Ombi | Public (no OAuth required) |

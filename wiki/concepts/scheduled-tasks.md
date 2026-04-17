@@ -54,6 +54,14 @@ Crons managed inside application containers (not OS-level).
 | SBCA | `node-cron` | `syncWaterLevels` | Daily at 8 AM ET | Polls Environment Canada MSC GeoMet API; stores results in PostgreSQL |
 | Haymaker | Internal cron | Discord habit reminders | Configured per-task | Fires Discord reminder if a tracked task is incomplete by its deadline |
 
+## Persistent Services
+
+Long-running processes managed by systemd (not cron-based).
+
+| Service | Unit | Port | Notes |
+|---------|------|------|-------|
+| Quartz Wiki | `quartz-wiki` | 3004 | Serves `wiki.camerontora.ca`; watches content for changes and rebuilds automatically |
+
 ## Frontend Polling
 
 Client-side intervals — not server crons, but relevant for understanding system load.

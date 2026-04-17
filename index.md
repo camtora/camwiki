@@ -40,6 +40,7 @@ Hosts, networks, storage, operating systems, container runtimes.
 - [[wiki/infrastructure/gluetun-vpn|Gluetun VPN]] — 3-region PIA WireGuard VPN (Toronto/Montreal/Vancouver), auto-failover, orphan auto-repair. `2 sources`
 - [[wiki/infrastructure/health-api|Health API]] — Flask container exposing CPU/RAM/disk/Plex/SMART metrics; all endpoints including admin. `2 sources`
 - [[wiki/infrastructure/macos-remote-mount|macOS Remote Mount]] — SSHFS mount of home server storage on MacBook (home + remote). `1 source`
+- [[wiki/infrastructure/quartz-wiki|Quartz Wiki]] — Quartz v4 static site serving camwiki at wiki.camerontora.ca; OAuth2 protected; port 3004; systemd service. `0 sources`
 - [[wiki/infrastructure/status-dashboard|Status Dashboard]] — GCP-hosted dashboard; 15 services monitored; admin panel (reboot, VPN, restart); Firestore history. `2 sources`
 - [[wiki/infrastructure/storage-raid|Storage and RAID]] — HOMENAS (10-drive software RAID5, sde has 16 bad sectors) and CAMRAID (hardware RAID5); per-drive SMART health. `2 sources`
 

@@ -184,3 +184,10 @@ Grep patterns:
 - **Pages created:** none
 - **Pages updated:** wiki/infrastructure/status-dashboard (deploy.sh change log entry), wiki/history/infrastructure (regenerated)
 - **Notes:** REQUIRED_SECRETS now single source of truth in deploy.sh; --set-secrets derived automatically to prevent drift.
+
+## [2026-04-17] edit | Quartz wiki setup at wiki.camerontora.ca
+
+- **Source:** n/a
+- **Pages created:** wiki/infrastructure/quartz-wiki
+- **Pages updated:** wiki/infrastructure/oauth2-proxy (wiki added to per-service table), wiki/concepts/scheduled-tasks (persistent services section), wiki/history/infrastructure (regenerated), index.md
+- **Notes:** Quartz installed at /home/camerontora/quartz-wiki, content symlinked to camwiki repo root, Node 22 installed via nvm, systemd service on port 3004, OAuth2 added to nginx config.

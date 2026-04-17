@@ -13,6 +13,9 @@ _Generated from `git log` as of 2026-04-17. Re-generated on every repo ingest._
 
 | Hash | Date | Message |
 |------|------|---------|
+| `3b36ef5` | 2026-04-17 | Add OAuth2 protection to wiki.camerontora.ca |
+| `42564db` | 2026-04-17 | Update DNS-AND-SSL docs for wiki.camerontora.ca |
+| `0526f66` | 2026-04-17 | Add wiki.camerontora.ca subdomain routing |
 | `1e16fa0` | 2026-04-17 | Fix deploy.sh to derive --set-secrets from REQUIRED_SECRETS list |
 | `b109fc6` | 2026-04-17 | Add public Wiki Q&A panel to status dashboard |
 | `e59329c` | 2026-04-17 | Add Wiki Q&A feature spec for status dashboard |
