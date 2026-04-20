@@ -3,7 +3,7 @@ title: "Quartz Wiki"
 type: infrastructure
 tags: [infra, wiki, quartz, nodejs]
 created: 2026-04-17
-updated: 2026-04-17
+updated: 2026-04-20
 source_count: 0
 ---
 
@@ -25,7 +25,7 @@ Quartz v4 static site generator serving the camwiki knowledge base at `wiki.came
 
 ## Role in the Stack
 
-Nginx proxies `wiki.camerontora.ca` → `http://host.docker.internal:3004`. Quartz serves the built static site and watches for content changes. The content symlink means edits to the camwiki repo are picked up automatically without any manual sync step.
+Nginx proxies `wiki.camerontora.ca` → `http://172.21.0.1:3005` (the `infrastructure_default` Docker gateway — `host.docker.internal` does not resolve in this container setup). Quartz serves the built static site and watches for content changes. The content symlink means edits to the camwiki repo are picked up automatically without any manual sync step.
 
 ## Managing the Service
 
@@ -37,20 +37,24 @@ sudo journalctl -u quartz-wiki -f     # tail logs
 
 ## Rebuilding
 
-Quartz `serve` mode watches for content changes and rebuilds automatically. To force a full rebuild:
+Quartz watches for content changes and rebuilds automatically via the systemd service. To force a full rebuild:
 
 ```bash
-cd /home/camerontora/quartz-wiki
-source ~/.nvm/nvm.sh && nvm use 22
-npx quartz build
 sudo systemctl restart quartz-wiki
+sudo journalctl -u quartz-wiki -f     # watch build progress
+```
+
+The service runs via `/home/camerontora/quartz-wiki/start.sh`:
+```bash
+source ~/.nvm/nvm.sh && nvm use 22
+exec npx quartz build --serve --port 3005 --wsPort 3006
 ```
 
 ## Configuration
 
 `/home/camerontora/quartz-wiki/quartz.config.ts`:
 - `baseUrl: "wiki.camerontora.ca"`
-- `ignorePatterns: ["raw", "scripts", ".obsidian", ".claude", ".git", "**/*.sh", "**/*.py"]`
+- `ignorePatterns: ["raw/**", "scripts/**", ".obsidian/**", ".claude/**", ".git/**", "**/README.md", "**/*.sh", "**/*.py"]`
 - Analytics disabled
 
 ## Known Issues / Limitations

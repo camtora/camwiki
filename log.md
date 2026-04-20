@@ -191,3 +191,10 @@ Grep patterns:
 - **Pages created:** wiki/infrastructure/quartz-wiki
 - **Pages updated:** wiki/infrastructure/oauth2-proxy (wiki added to per-service table), wiki/concepts/scheduled-tasks (persistent services section), wiki/history/infrastructure (regenerated), index.md
 - **Notes:** Quartz installed at /home/camerontora/quartz-wiki, content symlinked to camwiki repo root, Node 22 installed via nvm, systemd service on port 3004, OAuth2 added to nginx config.
+
+## [2026-04-20] lint | Full wiki lint pass
+
+- **Source:** n/a (synthesis of all wiki pages)
+- **Pages created:** none
+- **Pages updated:** wiki/infrastructure/quartz-wiki.md (corrected nginx proxy address, updated ignorePatterns, updated rebuild instructions)
+- **Notes:** All 50 decision pages confirmed in index and linked from project pages. Main finding: quartz-wiki.md had stale host.docker.internal:3004 reference (actual: 172.21.0.1:3005). README.md files added to ignorePatterns in both quartz.config.ts and wiki docs. Known Issues for Clarity (Twilio validation) and Whosup (PM2 Socket.IO) are pre-existing code bugs — not wiki issues.
